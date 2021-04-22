@@ -1,0 +1,15 @@
+get hostname and setups
+create oracle user
+install maven
+install python
+remove openjdk
+install javajdk
+install vncserver
+load a set of lab files (var - where)
+install intellij
+change hostname + hosts files
+set envirnment vars (./bash-profile)
+Change firefox proxy settings : https://stackoverflow.com/questions/843340/firefox-proxy-settings-via-command-line
+    The proxy setting is stored in the user's prefs.js file in their Firefox profile.
+    The path to the Firefox profile directory and the file is:
+    %APPDATA%\Mozilla\Firefox\Profiles\7b9ja6xv.default\prefs.js    
