@@ -1,0 +1,24 @@
+---
+- hosts: all
+
+  tasks:
+  - name: Get all the host names.
+    shell: hostname
+    register: result
+
+  - name: Show the result.
+    debug: var=result.stdout
+
+  - name: Get Disk space.
+    shell: df -h
+    register: result
+
+  - name: Show the result.
+    debug: var=result.stdout
+
+  - name: Get free mem
+    shell: free -h
+    register: result
+
+  - name: Show the result.
+    debug: var=result.stdout

@@ -1,0 +1,5 @@
+---
+# tasks file for demo
+  - name: Change Host name.
+    ansible.builtin.hostname:
+      name: dev1.lcf.com

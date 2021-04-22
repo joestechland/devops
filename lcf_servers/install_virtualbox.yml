@@ -1,0 +1,13 @@
+---
+- hosts: linux
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: install virtualbox.
+      yum:
+        name: VirtualBox-4.3
+        state: latest
+
+  # roles:
+  #   - role: PeterMosmans.virtualbox-guest
+  #https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1-6.1.20_143896_el7-1.x86_64.rpm

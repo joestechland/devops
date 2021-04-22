@@ -1,0 +1,17 @@
+[inst]
+192.168.0.206
+
+[student]
+192.168.0.18
+192.168.0.173
+192.168.0.136
+
+#Group'multi' with all servers
+[event:children]
+inst
+student
+
+#Variables that will be applied to all servers
+[event:vars]
+ansible_user=vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key

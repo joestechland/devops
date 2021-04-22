@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../../../../Volumes/devrepos/gitrepo"
+		}
+	],
+	"settings": {
+		"git.ignoreLimitWarning": true
+	}
+}

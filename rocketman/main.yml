@@ -1,0 +1,87 @@
+---
+- hosts: rocketman
+  # become: true
+  vars:
+    # download_url: "file:///Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm"
+    # download_file_src: "/Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm"
+    download_folder: /usr/java
+    java_name: "{{download_folder}}/jdk-11.0.6"
+
+
+  tasks:
+
+    - name: Install python3.
+      yum:
+        name: python3
+        state: latest
+      become: true
+      register: python
+
+    - debug:
+        var: python
+
+    - name: Copy java rpm file to server.
+      copy:
+        src: /Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm
+        dest: /tmp/java.rpm
+
+    - name: Install java rpm package.
+      yum:
+        name: /tmp/java.rpm
+        state: present
+      register: javavar
+      become: true
+
+    - debug:
+        var: javavar
+
+    - name: Fix ownership.
+      file: state=directory path={{java_name}} owner=root group=root recurse=yes
+      become: true
+
+    - debug:
+        var: javaalt
+
+    - name: Install the vb rpm from a remote repo.
+      yum:
+        name: https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1-6.1.20_143896_el7-1.x86_64.rpm
+        state: present
+      become: true
+      register: vbox
+
+    - debug:
+        var: vbox
+    - name: Install the vagrant  rpm from a remote repo.
+      yum:
+        name: https://releases.hashicorp.com/vagrant/2.2.15/vagrant_2.2.15_x86_64.rpm
+        state: present
+      become: true
+      register: vagrant
+
+
+    - name: Install ansible  package.
+      pip:
+        name: ansible
+        executable: pip3
+        state: latest
+
+    - name: Install yamllint  package.
+      pip:
+        name: yamllint
+        executable: pip3
+        state: latest
+
+    - name: Install ansible-lint  package.
+      pip:
+        name: ansible-lint
+        executable: pip3
+        state: latest
+
+    - name: Install vagrant module.
+      yum:
+        name: vagrant
+        state: latest
+      become: true
+
+  roles:
+    - {role: tecris.maven, maven_major: 3, maven_version: 3.6.3, maven_home_parent_directory: /opt, become: true}

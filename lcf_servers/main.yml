@@ -1,0 +1,22 @@
+---
+- hosts: all
+
+  tasks:
+  - name: ping all the hosts.
+    ping: 
+  
+  - name: get hostnames. 
+    command: hostname
+    register: result
+
+  - name: Show the result.
+    debug: var=result.stdout
+
+  - name: get disk sizes
+    command: df -h
+    register: result
+
+  - name: Show the result.
+    debug: var=result.stdout
+
+    

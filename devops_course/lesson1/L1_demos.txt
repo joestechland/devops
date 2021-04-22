@@ -1,0 +1,83 @@
+
+Prep:
+    dev1 and 2 up and working
+Ping the server to see if it's up
+    ping localhost  
+Do it with ansible: 
+    ansible all -i "localhost," -c local -m ping
+Get the hostname
+    hostname
+With ansible
+    ansible all -i "localhost," -c local -m shell -a "hostname" 
+localhost is boring - how about a different server?
+    dev1 and dev2 (OEL7)
+Are they up?
+    ping dev1.lcf.com
+    ping dev2.lcf.com
+Have ansible do it for us 
+     ansible all -i "dev1, dev2," -c local -m ping
+Get info about the servers?
+ First - can we connect via ssh?
+ssh oracle@dev1 - and then dev2
+- how to do it w/o passphrase?
+    ssh-add ~/.ssh/id_rsa
+    # if fails...  eval "$(ssh-agent -s)"  
+ try again:  
+    ssh oracle@dev1 / dev2
+    ansible all -i "dev1,dev2"  -m shell -a "hostname"
+Trying to connect as "joe" - add user:
+    ansible all -i "dev1,dev2"  -m shell -a "hostname" -u oracle
+Q: Why does shell -a "hostname" throw an error and Ping does not?
+    ping dev1 works
+    hostname dev1 does not
+     ansible all -i "dev1, dev2," -m hostname
+
+ Do it as a shell command to the server:
+    ansible all -i "dev1, dev2," -m shell -a "hostname"
+-m <modules name>  e.g. "shell"
+-a <argument to module>
+why no shell or -a for 
+    ansible all -i inventory_demo.ini -a "free -h" -u oracle
+Don't need the -m or shell as ansible defaults to the command module
+
+Command vs Shell:
+    shell runs via a Shell -  by defualt /bin/shell
+
+What else can we see about the servers?  file systems: df -h 
+    ansible all -i "dev1, dev2," -m shell -a "df -h" -u oracle
+Memory:
+     ansible all -i "dev1, dev2," -m shell -a "free -m" -u oracle
+    ansible all -i "dev1, dev2," -m shell -a "free -h" -u oracle
+Facts about the servers:
+    ansible all -i "dev1, dev2," -m setup -u oracle
+
+That's all great, but why type the servers over and over?
+Create an inventory -i <name> 
+    ansible all -i inventory_demo.ini  -m shell -a "free -h" -u oracle
+    can name it what you want ex: inventory.ini - get syntax benefits
+    in editor.
+And, I'm getting tired of having to add the user -u each time
+Create a .cfg file for that stuff. ansible.cfg
+    [defaults]
+    remote_user=oracle
+And the Python message is annoying
+    interpreter_python=auto_silent
+
+That's all great & ad hoc commands can be very useful
+ to do one thing to a lot of servers very quickly.
+ But what if you need to do many things at once to one or many servers?
+ FOr that you need a set of commands called tasks that can be run as a set called
+ a Playbook.
+ Lets start by taking our ad hoc commands and make a playbook out of them
+ 1. Create a new file with extension .yml call it main.yml
+ 2. Add hosts: all
+ 3: add tasks
+ 4. add name for task: Get hostname.
+ 5. Module name  -shell
+ 6. arguemtns: hostname
+
+ Do same for df h and free main
+ But don't see output!
+ Add register and debug
+ ** Copy Paste means less automation - how to resuse this?
+

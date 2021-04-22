@@ -1,0 +1,29 @@
+---
+- hosts: linux
+  
+  tasks:
+  - name: Check if vncserver is running.
+    service_facts:
+    register: service_state
+
+  - name: show rservice result.
+    debug:
+      var: service_state.ansible_facts.services["vncserver@:1.service"]
+
+  - name: check vncserver.
+    command: "systemctl status vncserver@:1.service"
+    register: vncstat
+    ignore_errors: true
+  
+  - name: check vncserver list.
+    command: "vncserver -list"
+    register: vnclist
+    ignore_errors: true
+
+  - name: show vnc list.
+    debug:
+      var: vnclist.stdout
+  
+  - name: show vnc result.
+    debug:
+      var: vncstat.stdout
