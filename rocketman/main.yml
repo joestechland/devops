@@ -1,6 +1,20 @@
 ---
 - hosts: rocketman
   # become: true
+
+   # change hostname
+  # change /etc/hosts file
+  # sudoers add oracle
+  # yum update
+  # mount open-vm tools - update fstab
+  # install maven
+  # install python
+  # install oracle 19c prep file
+  # iinstall jdk 11
+  # unisntall open_jdk
+  # create user oracle
+  # install ansible
+  
   vars:
     # download_url: "file:///Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm"
     # download_file_src: "/Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm"
