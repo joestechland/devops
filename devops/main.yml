@@ -1,8 +1,12 @@
 ---
-- hosts: rocketman
+- hosts: devops
   # become: true
 
-   # change hostname
+  # - pre work:
+  # install sudo
+  # copy ssh-copy-id
+
+  # change hostname
   # change /etc/hosts file
   # sudoers add oracle
   # yum update
@@ -14,12 +18,16 @@
   # unisntall open_jdk
   # create user oracle
   # install ansible
-  
+  # install visual studio code
+  # install git
+  # install filezilla
+  # cisco anyconnect
+
   vars:
     # download_url: "file:///Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm"
     # download_file_src: "/Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm"
     download_folder: /usr/java
-    java_name: "{{download_folder}}/jdk-11.0.6"
+    java_name: "{{download_folder}}/jdk-11.0.11"
 
 
   tasks:
@@ -31,12 +39,16 @@
       become: true
       register: python
 
+# upgrade pip post install: sudo python3 -m pip install -U pip
+
+
+
     - debug:
         var: python
 
     - name: Copy java rpm file to server.
       copy:
-        src: /Users/joe/Downloads/jdk-11.0.6_linux-x64_bin.rpm
+        src: /Users/joe/Downloads/jdk-11.0.11_linux-x64_bin.rpm
         dest: /tmp/java.rpm
 
     - name: Install java rpm package.
@@ -56,21 +68,21 @@
     - debug:
         var: javaalt
 
-    - name: Install the vb rpm from a remote repo.
-      yum:
-        name: https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1-6.1.20_143896_el7-1.x86_64.rpm
-        state: present
-      become: true
-      register: vbox
+    # - name: Install the vb rpm from a remote repo.
+    #   yum:
+    #     name: https://download.virtualbox.org/virtualbox/6.1.20/VirtualBox-6.1-6.1.20_143896_el7-1.x86_64.rpm
+    #     state: present
+    #   become: true
+    #   register: vbox
 
-    - debug:
-        var: vbox
-    - name: Install the vagrant  rpm from a remote repo.
-      yum:
-        name: https://releases.hashicorp.com/vagrant/2.2.15/vagrant_2.2.15_x86_64.rpm
-        state: present
-      become: true
-      register: vagrant
+    # - debug:
+    #     var: vbox
+    # - name: Install the vagrant  rpm from a remote repo.
+    #   yum:
+    #     name: https://releases.hashicorp.com/vagrant/2.2.15/vagrant_2.2.15_x86_64.rpm
+    #     state: present
+    #   become: true
+    #   register: vagrant
 
 
     - name: Install ansible  package.
@@ -91,11 +103,11 @@
         executable: pip3
         state: latest
 
-    - name: Install vagrant module.
-      yum:
-        name: vagrant
-        state: latest
-      become: true
+  # - name: Install vagrant module.
+  #   yum:
+  #     name: vagrant
+  #     state: latest
+  #   become: true
 
   roles:
     - {role: tecris.maven, maven_major: 3, maven_version: 3.6.3, maven_home_parent_directory: /opt, become: true}
