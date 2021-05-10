@@ -1,0 +1,13 @@
+---
+- hosts: multi
+  become: true
+  tasks:
+    - name: Install tigervnc server.
+      yum:
+        name: tigervnc-server
+        state: absent
+
+    - name: remove vncserver file.
+      file:
+        path: /etc/systemd/system/vncserver@.service
+        state: absent

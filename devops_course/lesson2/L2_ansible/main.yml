@@ -1,0 +1,69 @@
+---
+- hosts: multi
+  become: true
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Install tigervnc server.
+      yum:
+        name: tigervnc-server
+        state: present
+
+    - name: copy vncserver file.
+      copy:
+        src: /lib/systemd/system/vncserver@.service
+        dest: /etc/systemd/system/vncserver@.service
+        remote_src: true
+
+    - name: Ansible replace <USER> in vncserver file.
+      replace:
+        path: /etc/systemd/system/vncserver@.service
+        regexp: '<USER>'
+        replace: "{{user}}"
+
+    - name: reload daemon.
+      systemd:
+        daemon_reload: true
+
+    - name: enable the vncserver service.
+      systemd:
+        name: vncserver@1.service
+        enabled: true
+
+    - name: start the vncserver service.
+      systemd:
+        name: vncserver@1.service
+        state: started
+
+    - name: Check if VNC password is already set
+      stat:
+        path: /home/{{user}}/.vnc/passwd
+      become: true
+      register: vnc_passwd_file
+
+    - name: Create .vnc directory
+      file:
+        group: "{{user}}"
+        mode: 0755
+        owner: "{{user}}"
+        path: /home/{{user}}/.vnc
+        state: directory
+      become: true
+      when: not vnc_passwd_file.stat.exists
+
+    - name: Set default VNC password
+      shell: |
+        set -o pipefail
+        echo "{{user}}"| vncpasswd -f > /home/{{user}}/.vnc/passwd
+      become: true
+      when: not vnc_passwd_file.stat.exists
+
+    - name: Set correct permissions for VNC passwd file
+      file:
+        group: "{{user}}"
+        mode: 0600
+        owner: "{{user}}"
+        path: /home/{{user}}/.vnc/passwd
+      become: true
+      when: not vnc_passwd_file.stat.exists

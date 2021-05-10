@@ -1,0 +1,124 @@
+I've updated these to use ubuntu and added  gnome as a gui for the control machine which does 2 things: ansible is easier to install and the GUI will run Visual Studio Code
+
+If you want the previous instructions, they are here.
+
+This assumes a Windows machine with at least 16 GB of RAM. This may work with 8 GB but may impact performance.
+
+HINT: READ ALL the instructions through once before starting.,. Ask me if you have any questions or concerns before proceeding.
+
+1. Download and install VirtualBox: https://www.virtualbox.org/wiki/Downloads
+
+1.b. install extensions: https://download.virtualbox.org/virtualbox/6.1.20/Oracle_VM_VirtualBox_Extension_Pack-6.1.20.vbox-extpack - when prompted, open with virtualbox
+
+2. Download and install Vagrant: https://www.vagrantup.com/downloads
+
+3. Chose a drive and create a new directory to hold your ansible class work and stuff: ex: devops_class
+
+4.Open a terminal window and cd to the new dir: cd devops_class
+
+execute; vagrant init
+
+5. Download this Vagrantfile and copy it to this new directory. Replace the existing Vagrantfile when prompted.
+
+(Sanity check - open the Vagrantfile in an editor. It should have script to define three servers)
+
+# _*_ mode: ruby _*_
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# General Vagrant VM configurations
+#config.vm.box = "generic/oracle7"
+config.ssh.insert_key = false
+config.vm.synced_folder ".","/vagrant", disabled: true
+config.vm.provider :virtualbox do |v|
+v.memory = 2048
+#v.linked_clone = true
+end
+
+# Control server.
+config.vm.define "control" do |ctl|
+ctl.vm.hostname = "control.example.com"
+ctl.vm.box = "generic/ubuntu2010"
+ctl.vm.network :private_network, ip:"192.168.60.10"
+end
+
+# Application server 1.
+config.vm.define "app" do |app|
+app.vm.box = "generic/oracle7"
+app.vm.hostname = "app.example.com"
+app.vm.network :private_network, ip:"192.168.60.11"
+end
+
+
+# DB server 2.
+config.vm.define "db" do |db|
+db.vm.box = "generic/oracle7"
+db.vm.hostname = "db.example.com"
+db.vm.network :private_network, ip:"192.168.60.12"
+end
+
+
+
+end
+
+6. execute: vagrant up
+
+*** Note: you must disconnect from Oracle VPN to run vagrant up as it downloads the image and cannot do this from behind VPN. Once the images are downloaded the first time, then vagrant up should work with a local copy of the downloaded image.
+
+Some of the other installs - like Visual Studio - may not work behind the VPN - so best to do this when not connected to VPN until you get everything installed.
+
+So - turn off VPN for the entire install
+
+
+
+
+# the three servers should start
+# comments out the lines for the control vm if you want to be able to destroy and recreate the app and db servers separately
+
+7. Install gnome and visual studio code on the ubuntu control machine.
+# start VirtualBox GUI
+# locate the control machine
+
+# (update 5-May-2021 - removed change to display. Warning can be ignored. VBoxVGA will work with gnome below and allows for re-sizable windows.)
+# double-click the Control VM to upon its GUI
+# log in as vagrant/vagrant
+# install gnome: https://linuxconfig.org/how-to-install-gnome-on-ubuntu-20-04-lts-focal-fossa
+
+ ### I have tested this new set of commands and they work.  (5-May-21)
+
+sudo apt update
+sudo apt upgrade
+
+sudo apt install tasksel
+sudo tasksel install ubuntu-desktop
+
+# Note: if this fails: "apt-get failed" - just retry: sudo tasksel install ubuntu-desktop
+sudo reboot # login as vagrant/vagrant  - You should be presented with the gnome GUI login screen. If not, ask me for help.
+# install Visual Studio Code: https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-20-04/
+sudo snap install --classic code
+
+# Test that Visual Studio Code works by executing. NOTE: You HAVE to have booted into Gnome (the GUI Desktop) for code to work
+
+code
+
+#the editor should open
+
+# install ansible, yamllint and ansible-lint
+sudo apt install ansible
+sudo apt install yamllint
+sudo apt install ansible-lint
+
+8. Test ansible works:
+
+execute: ansible
+
+# you should see the ansible command list = ansible is installed
+
+
+9. test ansible works
+ansible all -i "localhost," -c local -m ping
+# you should see the correct output
+
+10. test against the other servers
+ansible all -i "192.168.60.11, 192.168.60.12" -c local -m ping

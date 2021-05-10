@@ -1,0 +1,4 @@
+[defaults]
+#inventory=inventory_demo.ini
+remote_user=oracle
+interpreter_python=auto_silent

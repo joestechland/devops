@@ -1,0 +1,131 @@
+This assumes a Windows machine with at least 16 GB of RAM. This may work with 8 GB but may impact performance.
+
+HINT: READ ALL the instructions through once before starting.,. Ask me if you have any questions or concerns before proceeding.
+
+ 1. Download and install VirtualBox:  https://www.virtualbox.org/wiki/Downloads
+
+1.b. install extensions: https://download.virtualbox.org/virtualbox/6.1.20/Oracle_VM_VirtualBox_Extension_Pack-6.1.20.vbox-extpack   - when prompted, open with virtualbox
+
+2. Download and install Vagrant:  https://www.vagrantup.com/downloads
+
+3. Chose a drive and create a new directory to hold your ansible class work and stuff: ex:  devops_class
+
+4.Open a terminal window and cd to the new dir: cd devops_class
+
+ execute; vagrant init
+
+5. Download this Vagrantfile and copy it to this new directory. Replace the existing Vagrantfile when prompted.
+
+(Sanity check - open the Vagrantfile in an editor. It should have script to define three servers)
+
+# _*_ mode: ruby _*_
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# General Vagrant VM configurations
+config.vm.box = "generic/oracle7"
+config.ssh.insert_key = false
+config.vm.synced_folder ".","/vagrant", disabled: true
+config.vm.provider :virtualbox do |v|
+v.memory = 2048
+v.linked_clone = true
+end
+
+# Control server.
+config.vm.define "control" do |app|
+app.vm.hostname = "control.example.com"
+app.vm.network :private_network, ip:"192.168.60.10"
+end
+
+# Application server 1.
+config.vm.define "app1" do |app|
+app.vm.hostname = "app1.example.com"
+app.vm.network :private_network, ip:"192.168.60.11"
+end
+
+
+# DB server 2.
+config.vm.define "db" do |app|
+app.vm.hostname = "db.example.com"
+app.vm.network :private_network, ip:"192.168.60.12"
+end
+
+end
+
+
+6. execute:  vagrant up
+# the three servers should start
+7. ssh to the control machines: vagrant ssh control
+# you should now be logged in as vagrant@control and you are ready to install ansible
+8. Install Python 3
+sudo yum -y install python3
+9. Install pip
+curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+python3 get-pip.py --user
+python3 -m pip install --user ansible
+# Test ansible works:
+
+execute: ansible
+
+# you should see the ansible command list = ansible is installed
+
+10. Install yamlliint and ansible-lint
+python3 -m pip install --user yamllint
+python3 -m pip install --user ansible-lint
+
+11. test ansible works
+ansible all -i "localhost," -c local -m ping
+
+12. test against the other servers
+ansible all -i "192.168.60.11, 192.168.60.12" -c local -m ping
+
+13. Create keys for passwordless ssh to the vms
+ssh-keygen
+#accept default file (/home.vagrant/.ssh/id_rsa)
+enter password:  oracle
+14. copy keys to other servers
+ssh-copy-id vagrant@192.168.60.11
+#Yes to continue connecting & password is vagrant
+ssh-copy-id vagrant@192.168.60.12
+#Yes to continue connecting & password is vagrant
+15. Add your keys to the session:
+ssh-add
+# If it errors out then enter:
+eval "$(ssh-agent -s)"
+#and try again
+16. try ssh to each server
+ssh vagrant@192.168.60.11
+ssh vagrant@192.168.60.12
+# this should work - MAKE SURE to exit ssh when done with the server!
+17. Back at vagrant@control, try to ping the servers with ansible
+ansible all -i "192.168.60.11, 192.168.60.12" -m ping
+
+If all this works, you can try the demos form class or play around yourself.
+
+Remember to exit vagrant@control to run vagrant commands on the VMs:
+vagrant suspend -a
+#will suspend the servers
+vagrant resume
+#restarts them or you can use the Virtual Box UI
+vagrant destroy will destroy the VMs - if you do this, you can use vagrant up to re-create them but you'll need to re-create all the keys.
+
+Each time you ssh to the control machine you'll need to execute:
+eval "$(ssh-agent -s)"
+ssh-add
+# to store the keys in memory. Or you can simply type the key password "oracle" once for each machine the ansible command works against. You only have to do this once per session.
+
+18. Create an inventory file on vagrant@control
+#create a new file named inventory:
+touch inventory
+use vi to edit it:
+vi inventory
+
+[app]
+192.168.60.11
+
+[db]
+192.168.60.12
+
+Now run ansible ad hoc commands without list of servers:
+ansible all -i inventory -m ping

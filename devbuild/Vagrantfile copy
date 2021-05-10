@@ -1,0 +1,30 @@
+# _*_ mode: ruby _*_
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+# General Vagrant VM configurations
+config.vm.hostname = "control-test.lcf.com"
+config.vm.box = "peru/ubuntu-20.04-desktop-amd64"
+config.ssh.insert_key = false
+#config.vm.synced_folder ".","/vagrant", disabled: false
+#config.vm.synced_folder "/User/joe/Public/wip","/vagrant/WIP", disabled: false
+#config.vm.synced_folder "/Users/joe/Public/devops_git_repo","/vagrant/devops_git_repo", disabled: false
+
+config.vm.provider :virtualbox do |v|
+v.memory = 4096
+end
+
+# Control server.
+  config.vm.define "control" do |app|
+    app.vm.hostname = "control.lcf.com"
+    app.vm.network :public_network, ip:"192.168.0.200"
+  end
+
+  # Application server 1.
+  config.vm.define "control-test" do |app|
+    app.vm.hostname = "ctl-test.lcf.com"
+    app.vm.network :public_network, ip:"192.168.0.201"
+  end
+
+end
