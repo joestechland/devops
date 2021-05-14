@@ -1,0 +1,126 @@
+---
+- hosts: all
+  become: true
+
+  vars:
+    vaulted_password: oracle
+    git_root: https://github.com/joestechland
+    devops_repo: /devops.git
+    devops_class_repo: /devops_class.git
+    ansible_ssh_pass: GreWiz23.
+    ansible_become_pass: GreWiz23.
+
+
+  tasks:
+    - name: Update apt-get repo and cache.
+      apt:
+        update_cache: true
+
+    - name: Upgrade all apt packages
+      apt:
+        upgrade: dist
+        force_apt_get: true
+
+    - name: install visual studio code.
+      snap:
+        name: code
+        classic: true
+
+
+    # - name: add user oracle.
+    #   user:
+    #     name: oracle
+    #     # group:
+    #     #   - adm
+    #     #   - cdrom
+    #     #   - sudo
+    #     #   - dip
+    #     #   - plugdev
+    #     #   - lpadmin
+    #     #   - lxd
+    #     #   - sambashare
+    #     createhome: true
+    #     password: "{{ vaulted_password | password_hash('sha512') }}"
+
+    - name: install ansible and linters and git.
+      apt:
+        pkg:
+          - ansible
+          - yamllint
+          - ansible-lint
+          - git
+          - curl
+          - python3
+      
+      
+    - name: update python 3 alternatives
+      command: "update-alternatives --install /usr/bin/python python /usr/bin/python3 1"
+      
+
+    - name: remove unwanted packages.
+      apt:
+        pkg:
+          - thunderbird
+          - libreoffice*
+          - rhythmbox
+        state: absent
+
+    - name: Clone a devops repo with separate git directory.
+      git:
+        repo: "{{ git_root }}/{{ devops_repo }}"
+        dest: "/home/joe{{ devops_repo }}"
+
+    - name: Recursively change ownership of a directory
+      file:
+        path: "/home/joe/{{ devops_repo }}"
+        state: directory
+        recurse: true
+        owner: joe
+
+    - name: Clone a devops_class repo with separate git directory.
+      git:
+        repo: "{{ git_root }}/{{ devops_class_repo }}"
+        dest: "/home/joe{{ devops_class_repo }}"
+
+ 
+    - name: Recursively change ownership of a directory
+      file:
+        path: "/home/joe/{{ devops_class_repo }}"
+        state: directory
+        recurse: true
+        owner: joe
+
+
+
+    - name: Download oci install.sh.
+      get_url:
+        url: https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
+        dest: /home/joe/Downloads/install.sh
+        mode: '0777'
+
+    - name: Install oci cli.
+ #     shell: /home/oracle/Downloads/install.sh --install-dir /home/joe/lib/oracle-cli --exec-dir /home/joe/bin  --script-dir /home/joe/bin/oci-cli-scripts  --optional-features db  --rc-file-path /home/joe/.bashrc
+      shell: /home/joe/Downloads/install.sh  --accept-all-defaults
+ 
+    - name: Recursively change ownership of a directory
+      file:
+        path: /home/joe/bin
+        state: directory
+        recurse: true
+        owner: joe
+
+    - name: Update apt-get repo and cache.
+      apt:
+        update_cache: true
+    - name: Upgrade all apt packages
+      apt:
+        upgrade: dist
+        force_apt_get: true
+
+# install maven
+# install jdk and remove open jdk
+
+
+# https://www.ansibletutorials.com/adding-users
+# install kubernetes and docker is a schwaz - do it in a separate playbook
+# https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/

@@ -11,29 +11,34 @@
 
 
   tasks:
-  - name: Update apt-get repo and cache.
+  - name: update.
     apt:
       update_cache: true
-
-  - name: Upgrade all apt packages
-    apt:
       upgrade: dist
-      force_apt_get: true
 
   - name: install visual studio code.
     snap:
       name: code
       classic: true
 
-  - name: Add the admin group.
-    group:
-      name: admin
-      state: present
+  # - name: Add the admin group.
+  #   group:
+  #     name: admin
+  #     state: present
   # https://computingforgeeks.com/manage-users-and-groups-on-linux-using-ansible/
   - name: add user joe.
     user:
       name: joe
-      group: admin
+      group: 
+        - adm
+        - cdrom
+        - sudo
+        - dip
+        - plugdev
+        - lpadmin
+        - lxd
+        - sambashare
+      #adm cdrom sudo dip plugdev lpadmin lxd sambashare
       createhome: true
       password: "{{ vaulted_password | password_hash('sha512') }}"
 
@@ -59,14 +64,4 @@
       upgrade: dist
       force_apt_get: true
 
-  # - name: install curl.
-  #   snap:
-  #     name: curl
-
-# install maven
-# install jdk and remove open jdk
-
-
-# https://www.ansibletutorials.com/adding-users
-# install kubernetes and docker is a schwaz - do it in a separate playbook
-#https://kubernetes.io/blog/2019/03/15/kubernetes-setup-using-ansible-and-vagrant/
+ansible-galaxy collection install oracle.oci#ansible-galaxy collection install oracle.oci
