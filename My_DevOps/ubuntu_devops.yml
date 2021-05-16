@@ -114,6 +114,7 @@
     # ansible-galaxy install oracle.oci_ansible_modules
     # cd /home/joe/.ansible/roles/oracle.oci_ansible_modules
     # sudo /install.py
+    # copy config file  
 
     - name: Update apt-get repo and cache.
       apt:
