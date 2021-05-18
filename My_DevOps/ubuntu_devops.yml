@@ -31,7 +31,7 @@
     # - name: add user oracle.
     #   user:
     #     name: oracle
-    #     # group:
+    #     group: oracle
     #     #   - adm
     #     #   - cdrom
     #     #   - sudo
@@ -42,6 +42,7 @@
     #     #   - sambashare
     #     createhome: true
     #     password: "{{ vaulted_password | password_hash('sha512') }}"
+    #     system: true
 
     - name: install ansible and linters and git.
       apt:
@@ -52,6 +53,9 @@
           - git
           - curl
           - python3
+          - python3-pip
+          - gkrellm
+          - sshfs
 
     - name: update python 3 alternatives
       command: "update-alternatives --install /usr/bin/python python /usr/bin/python3 1"
@@ -70,7 +74,7 @@
         repo: "{{ git_root }}/{{ devops_repo }}"
         dest: "/home/{{ user }}{{ devops_repo }}"
 
-    - name: Recursively change ownership of a directory
+    - name: Recursively change ownership of devops directory
       file:
         path: "/home/{{ user }}/{{ devops_repo }}"
         state: directory
@@ -83,7 +87,7 @@
         dest: "/home/{{ user }}{{ devops_class_repo }}"
 
 
-    - name: Recursively change ownership of a directory
+    - name: Recursively change ownership of devops_class directory
       file:
         path: "/home/{{ user }}/{{ devops_class_repo }}"
         state: directory
@@ -96,25 +100,39 @@
         url: https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
         dest: "/home/{{ user }}/Downloads/install.sh"
         mode: '0777'
+        owner: "{{ user }}"
 
     - name: Install oci cli.
-# shell: /home/oracle/Downloads/install.sh --install-dir /home/joe/lib/oracle-cli --exec-dir /home/joe/bin  --script-dir /home/joe/bin/oci-cli-scripts  --optional-features db  --rc-file-path /home/joe/.bashrc
-      shell: "/home/{{ user }}/Downloads/install.sh  --accept-all-defaults"
+      shell: >
+        /home/{{ user }}/Downloads/install.sh 
+        --install-dir "/home/{{ user }}/lib/oracle-cli" 
+        --exec-dir "/home/{{ user }}/bin" 
+        --script-dir "/home/{{ user }}/bin/oci-cli-scripts"  
+        --optional-features db  
+        --update-path-and-enable-tab-completion
+        --rc-file-path "/home/{{ user }}/.bashrc"
 
-    - name: Recursively change ownership of a directory
+
+    - name: Recursively change ownership of a directory.
       file:
         path: /home/{{ user }}/bin
         state: directory
         recurse: true
         owner: "{{ user }}"
 
-    # - name: install Ansible galaxy collexctions for OCI
-    #   command: 
-    # pip3 install oci
-    # ansible-galaxy install oracle.oci_ansible_modules
-    # cd /home/joe/.ansible/roles/oracle.oci_ansible_modules
-    # sudo /install.py
+    - name: Install oci ansible modules.
+      pip:
+        name: oci
+
+    - name: install OCI Ansible galaxy collections.
+      command: ansible-galaxy collection install oracle.oci
+
+    - name: Create sample up OCI Config file
+      command: /home/oracle/bin/oci setup oci-cli-rc --file "/home/{{ user }}/.oci/oci_cli_rc"
     # copy config file  
+    # sshfs oracle@ed-devops.us.oracle.com:/home/oracle/ocic_scripts/Ansible_Playbooks/ ~/ed-devops
+    # cd && fusermount -u ~/ed-devops
+    # mkdir ed-devops
 
     - name: Update apt-get repo and cache.
       apt:
