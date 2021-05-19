@@ -1,0 +1,7 @@
+    vaulted_password: oracle
+    git_root: https://github.com/joestechland
+    devops_repo: /devops.git
+    devops_class_repo: /devops_class.git
+    ansible_ssh_pass: oracle
+    ansible_become_pass: oracle
+    user: oracle

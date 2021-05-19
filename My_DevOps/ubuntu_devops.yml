@@ -2,15 +2,8 @@
 - hosts: all
   become: true
 
-  vars:
-    vaulted_password: oracle
-    git_root: https://github.com/joestechland
-    devops_repo: /devops.git
-    devops_class_repo: /devops_class.git
-    ansible_ssh_pass: oracle
-    ansible_become_pass: oracle
-    user: oracle
-
+  vars_files:
+    vars/main_vars.yml
 
   tasks:
 
@@ -107,11 +100,11 @@
 
     - name: Install oci cli.
       shell: >
-        /home/{{ user }}/Downloads/install.sh 
-        --install-dir "/home/{{ user }}/lib/oracle-cli" 
-        --exec-dir "/home/{{ user }}/bin" 
-        --script-dir "/home/{{ user }}/bin/oci-cli-scripts"  
-        --optional-features db  
+        /home/{{ user }}/Downloads/install.sh
+        --install-dir "/home/{{ user }}/lib/oracle-cli"
+        --exec-dir "/home/{{ user }}/bin"
+        --script-dir "/home/{{ user }}/bin/oci-cli-scripts"
+        --optional-features db
         --update-path-and-enable-tab-completion
         --rc-file-path "/home/{{ user }}/.bashrc"
 
@@ -132,7 +125,7 @@
 
     - name: Create sample up OCI Config file
       command: /home/oracle/bin/oci setup oci-cli-rc --file "/home/{{ user }}/.oci/oci_cli_rc"
-    # copy config file  
+    # copy config file
     # sshfs oracle@ed-devops.us.oracle.com:/home/oracle/ocic_scripts/Ansible_Playbooks/ ~/ed-devops
     # cd && fusermount -u ~/ed-devops
     # mkdir ed-devops
@@ -145,7 +138,7 @@
         upgrade: dist
         force_apt_get: true
 
-    
+
 # install maven
 # install jdk and remove open jdk
 
