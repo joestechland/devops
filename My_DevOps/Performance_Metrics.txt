@@ -1,0 +1,909 @@
+/usr/bin/ssh-copy-id: ERROR: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ERROR: @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+ERROR: @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+ERROR: IT IS POSSIBLE THAT SOMEONE IS DOING SOMETHING NASTY!
+ERROR: Someone could be eavesdropping on you right now (man-in-the-middle attack)!
+ERROR: It is also possible that a host key has just been changed.
+ERROR: The fingerprint for the ECDSA key sent by the remote host is
+ERROR: SHA256:KeR0t5b+KX3eXr4tGueWBIQ7EJOWGyuwXcTrgI7SYwM.
+ERROR: Please contact your system administrator.
+ERROR: Add correct host key in /Users/joe/.ssh/known_hosts to get rid of this message.
+ERROR: Offending ECDSA key in /Users/joe/.ssh/known_hosts:22
+ERROR: ECDSA host key for 192.168.0.3 has changed and you have requested strict checking.
+ERROR: Host key verification failed.
+
+joe@ripley~/Main/devops/My_DevOps % ssh-copy-id oracle@192.168.0.3
+The authenticity of host '192.168.0.3 (192.168.0.3)' can't be established.
+ECDSA key fingerprint is SHA256:KeR0t5b+KX3eXr4tGueWBIQ7EJOWGyuwXcTrgI7SYwM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+The authenticity of host '192.168.0.3 (192.168.0.3)' can't be established.
+ECDSA key fingerprint is SHA256:KeR0t5b+KX3eXr4tGueWBIQ7EJOWGyuwXcTrgI7SYwM.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+/usr/bin/ssh-copy-id: INFO: 2 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+oracle@192.168.0.3's password: 
+joe@ripley~/Main/devops/My_DevOps % ssh-copy-id oracle@192.168.0.3
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 2 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+oracle@192.168.0.3's password: 
+
+Number of key(s) added:        2
+
+Now try logging into the machine, with:   "ssh 'oracle@192.168.0.3'"
+and check to make sure that only the key(s) you wanted were added.
+
+joe@ripley~/Main/devops/My_DevOps % ssh oracle@192.168.0.3        
+Welcome to Ubuntu 20.04.1 LTS (GNU/Linux 5.8.0-53-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+
+386 updates can be installed immediately.
+167 of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+Your Hardware Enablement Stack (HWE) is supported until April 2025.
+oracle@ubuntu:~$ exit
+logout
+Connection to 192.168.0.3 closed.
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml 
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [run install python script.] *****************************************************************************************************************************************************************************************************
+fatal: [192.168.0.3]: FAILED! => {"changed": false, "cmd": "/home/oracle/.ansible/roles/oracle.oci_ansible_modules/install.py", "msg": "[Errno 2] No such file or directory: b'/home/oracle/.ansible/roles/oracle.oci_ansible_modules/install.py'", "rc": 2}
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=16   changed=15   unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml -vv
+ansible-playbook 2.10.9
+  config file = /Users/joe/Main/devops/My_DevOps/ansible.cfg
+  configured module search path = ['/Users/joe/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/local/Cellar/ansible/3.4.0/libexec/lib/python3.9/site-packages/ansible
+  executable location = /usr/local/bin/ansible-playbook
+  python version = 3.9.5 (default, May  4 2021, 03:36:27) [Clang 12.0.0 (clang-1200.0.32.29)]
+Using /Users/joe/Main/devops/My_DevOps/ansible.cfg as config file
+redirecting (type: modules) ansible.builtin.snap to community.general.snap
+Skipping callback 'default', as we already have a stdout callback.
+Skipping callback 'minimal', as we already have a stdout callback.
+Skipping callback 'oneline', as we already have a stdout callback.
+
+PLAYBOOK: ubuntu_devops.yml ***********************************************************************************************************************************************************************************************************
+1 plays in ubuntu_devops.yml
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:2
+[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host 192.168.0.3 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using 
+the discovered platform python for this host. See https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can 
+be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [192.168.0.3]
+META: ran handlers
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:16
+changed: [192.168.0.3] => {"cache_update_time": 1621374884, "cache_updated": true, "changed": true}
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:20
+ok: [192.168.0.3] => {"changed": false, "msg": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nCalculating upgrade...\nThe following packages were automatically installed and are no longer required:\n  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1\n  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0\n  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5\n  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0\n  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data\n  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4\n  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0\n  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3\n  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0\n  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0\n  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5\n  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3\n  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10\n  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info\n  python3-mako rhythmbox-data uno-libs-private ure\nUse 'sudo apt autoremove' to remove them.\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n", "stderr": "", "stderr_lines": [], "stdout": "Reading package lists...\nBuilding dependency tree...\nReading state information...\nCalculating upgrade...\nThe following packages were automatically installed and are no longer required:\n  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1\n  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0\n  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5\n  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0\n  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data\n  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4\n  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0\n  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3\n  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0\n  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0\n  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5\n  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3\n  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10\n  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info\n  python3-mako rhythmbox-data uno-libs-private ure\nUse 'sudo apt autoremove' to remove them.\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\n", "stdout_lines": ["Reading package lists...", "Building dependency tree...", "Reading state information...", "Calculating upgrade...", "The following packages were automatically installed and are no longer required:", "  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1", "  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0", "  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5", "  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0", "  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data", "  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4", "  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0", "  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3", "  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0", "  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0", "  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5", "  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3", "  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10", "  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info", "  python3-mako rhythmbox-data uno-libs-private ure", "Use 'sudo apt autoremove' to remove them.", "0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded."]}
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:25
+redirecting (type: modules) ansible.builtin.snap to community.general.snap
+ok: [192.168.0.3] => {"changed": false, "channel": "stable", "classic": true}
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:47
+ok: [192.168.0.3] => {"cache_update_time": 1621374884, "cache_updated": false, "changed": false}
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:60
+changed: [192.168.0.3] => {"changed": true, "cmd": ["update-alternatives", "--install", "/usr/bin/python", "python", "/usr/bin/python3", "1"], "delta": "0:00:00.003297", "end": "2021-05-18 14:54:50.014465", "rc": 0, "start": "2021-05-18 14:54:50.011168", "stderr": "", "stderr_lines": [], "stdout": "", "stdout_lines": []}
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:64
+ok: [192.168.0.3] => {"changed": false}
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:72
+ok: [192.168.0.3] => {"after": "d61e528d0c673465d4a6e51ddef833e1aab51775", "before": "d61e528d0c673465d4a6e51ddef833e1aab51775", "changed": false, "remote_url_changed": false}
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:77
+changed: [192.168.0.3] => {"changed": true, "gid": 0, "group": "root", "mode": "0755", "owner": "oracle", "path": "/home/oracle//devops.git", "size": 4096, "state": "directory", "uid": 1000}
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:84
+ok: [192.168.0.3] => {"after": "a30c3dc2637285e2eb6d2025ab1d44a3a6f31202", "before": "a30c3dc2637285e2eb6d2025ab1d44a3a6f31202", "changed": false, "remote_url_changed": false}
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:90
+changed: [192.168.0.3] => {"changed": true, "gid": 0, "group": "root", "mode": "0755", "owner": "oracle", "path": "/home/oracle//devops_class.git", "size": 4096, "state": "directory", "uid": 1000}
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:98
+ok: [192.168.0.3] => {"changed": false, "checksum_dest": "f1cc4643ffb6cdb8a9adf5100587d29f9230a0c9", "checksum_src": "f1cc4643ffb6cdb8a9adf5100587d29f9230a0c9", "dest": "/home/oracle/Downloads/install.sh", "elapsed": 0, "gid": 0, "group": "root", "md5sum": "110b44fe5ae3cc53f2651173739cbbf6", "mode": "0777", "msg": "OK (17204 bytes)", "owner": "oracle", "size": 17204, "src": "/home/oracle/.ansible/tmp/ansible-tmp-1621374892.946849-75378-132198590820882/tmplwl4eqdt", "state": "file", "status_code": 200, "uid": 1000, "url": "https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh"}
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:105
+changed: [192.168.0.3] => {"changed": true, "cmd": "/home/oracle/Downloads/install.sh  --install-dir \"/home/oracle/lib/oracle-cli\"  --exec-dir \"/home/oracle/bin\"  --script-dir \"/home/oracle/bin/oci-cli-scripts\"   --optional-features db   --update-path-and-enable-tab-completion --rc-file-path \"/home/oracle/.bashrc\"\n", "delta": "0:00:04.445733", "end": "2021-05-18 14:54:58.330607", "rc": 0, "start": "2021-05-18 14:54:53.884874", "stderr": "#=#=#                                                                         \r\r######################################################################## 100.0%", "stderr_lines": ["#=#=#                                                                         ", "", "######################################################################## 100.0%"], "stdout": "\n    ******************************************************************************\n    You have started the OCI CLI Installer in interactive mode. If you do not wish\n    to run this in interactive mode, please include the --accept-all-defaults option.\n    If you have the script locally and would like to know more about\n    input options for this script, then you can run:\n    ./install.sh -h\n    If you would like to know more about input options for this script, refer to:\n    https://github.com/oracle/oci-cli/blob/master/scripts/install/README.rst\n    ******************************************************************************\nDownloading Oracle Cloud Infrastructure CLI install script from https://raw.githubusercontent.com/oracle/oci-cli/v2.22.0/scripts/install/install.py to /tmp/oci_cli_install_tmp_MfzR.\nRunning install script.\npython3 /tmp/oci_cli_install_tmp_MfzR  --install-dir /home/oracle/lib/oracle-cli --exec-dir /home/oracle/bin --script-dir /home/oracle/bin/oci-cli-scripts --optional-features db --update-path-and-enable-tab-completion --rc-file-path /home/oracle/.bashrc\nHit:1 http://security.ubuntu.com/ubuntu focal-security InRelease\nHit:2 http://us.archive.ubuntu.com/ubuntu focal InRelease\nHit:3 http://us.archive.ubuntu.com/ubuntu focal-updates InRelease\nHit:4 http://us.archive.ubuntu.com/ubuntu focal-backports InRelease\nReading package lists...\nReading package lists...\nBuilding dependency tree...\nReading state information...\npython3-venv is already the newest version (3.8.2-0ubuntu2).\nThe following packages were automatically installed and are no longer required:\n  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1\n  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0\n  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5\n  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0\n  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data\n  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4\n  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0\n  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3\n  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0\n  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0\n  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5\n  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3\n  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10\n  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info\n  python3-mako rhythmbox-data uno-libs-private ure\nUse 'sudo apt autoremove' to remove them.\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nRequirement already satisfied: pip in ./lib/oracle-cli/lib/python3.8/site-packages (21.1.1)\nRequirement already satisfied: wheel in ./lib/oracle-cli/lib/python3.8/site-packages (0.36.2)\nReading package lists...\nBuilding dependency tree...\nReading state information...\nlibffi-dev is already the newest version (3.3-4).\npython3-dev is already the newest version (3.8.2-0ubuntu2).\nbuild-essential is already the newest version (12.8ubuntu1.1).\nlibssl-dev is already the newest version (1.1.1f-1ubuntu2.3).\nThe following packages were automatically installed and are no longer required:\n  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1\n  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0\n  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5\n  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0\n  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data\n  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4\n  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0\n  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3\n  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0\n  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0\n  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5\n  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3\n  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10\n  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info\n  python3-mako rhythmbox-data uno-libs-private ure\nUse 'sudo apt autoremove' to remove them.\n0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.\nRequirement already satisfied: oci_cli[db] in ./lib/oracle-cli/lib/python3.8/site-packages (2.24.5)\nRequirement already satisfied: certifi in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2020.12.5)\nRequirement already satisfied: arrow==0.17.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (0.17.0)\nRequirement already satisfied: pyOpenSSL==19.1.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (19.1.0)\nRequirement already satisfied: oci==2.38.3 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2.38.3)\nRequirement already satisfied: jmespath==0.10.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (0.10.0)\nRequirement already satisfied: python-dateutil<3.0.0,>=2.5.3 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2.8.1)\nRequirement already satisfied: retrying==1.3.3 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (1.3.3)\nRequirement already satisfied: PyYAML==5.4.1 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (5.4.1)\nRequirement already satisfied: cryptography==3.3.2 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (3.3.2)\nRequirement already satisfied: terminaltables==3.1.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (3.1.0)\nRequirement already satisfied: pytz>=2016.10 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2021.1)\nRequirement already satisfied: six==1.14.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (1.14.0)\nRequirement already satisfied: click==6.7 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (6.7)\nRequirement already satisfied: configparser==4.0.2 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (4.0.2)\nRequirement already satisfied: cx-Oracle==7.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (7.0.0)\nRequirement already satisfied: cffi>=1.12 in ./lib/oracle-cli/lib/python3.8/site-packages (from cryptography==3.3.2->oci_cli[db]) (1.14.5)\nRequirement already satisfied: pycparser in ./lib/oracle-cli/lib/python3.8/site-packages (from cffi>=1.12->cryptography==3.3.2->oci_cli[db]) (2.20)\n-- Verifying Python version.\n-- Python version 3.8.5 okay.\n-- Executing: ['sudo', 'apt-get', 'update']\n-- Installing python3-venv.\n-- Executing: ['sudo', 'apt-get', 'install', 'python3-venv', '-y']\n-- Trying to use python3 venv.\n-- Executing: ['/usr/bin/python3', '-m', 'venv', '/home/oracle/lib/oracle-cli']\n-- Executing: ['/home/oracle/lib/oracle-cli/bin/pip', 'install', '--upgrade', 'pip']\n-- Executing: ['/home/oracle/lib/oracle-cli/bin/pip', 'install', '--cache-dir', '/tmp/tmp_n3rn7ny', 'wheel', '--upgrade']\n-- Installing native dependencies for Ubuntu.\n-- Executing: ['sudo', 'apt-get', '--assume-yes', 'install', 'libssl-dev', 'libffi-dev', 'python3-dev', 'build-essential']\n-- Executing: ['/home/oracle/lib/oracle-cli/bin/pip', 'install', '--cache-dir', '/tmp/tmp_n3rn7ny', 'oci_cli[db]', '--upgrade']\n-- Backed up '/home/oracle/.bashrc' to '/home/oracle/.bashrc.backup'\n-- Tab completion set up complete.\n-- If tab completion is not activated, verify that '/home/oracle/.bashrc' is sourced by your shell.\n-- \n-- ** Run `exec -l $SHELL` to restart your shell. **\n-- \n-- Installation successful.\n-- Run the CLI with /home/oracle/bin/oci --help", "stdout_lines": ["", "    ******************************************************************************", "    You have started the OCI CLI Installer in interactive mode. If you do not wish", "    to run this in interactive mode, please include the --accept-all-defaults option.", "    If you have the script locally and would like to know more about", "    input options for this script, then you can run:", "    ./install.sh -h", "    If you would like to know more about input options for this script, refer to:", "    https://github.com/oracle/oci-cli/blob/master/scripts/install/README.rst", "    ******************************************************************************", "Downloading Oracle Cloud Infrastructure CLI install script from https://raw.githubusercontent.com/oracle/oci-cli/v2.22.0/scripts/install/install.py to /tmp/oci_cli_install_tmp_MfzR.", "Running install script.", "python3 /tmp/oci_cli_install_tmp_MfzR  --install-dir /home/oracle/lib/oracle-cli --exec-dir /home/oracle/bin --script-dir /home/oracle/bin/oci-cli-scripts --optional-features db --update-path-and-enable-tab-completion --rc-file-path /home/oracle/.bashrc", "Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease", "Hit:2 http://us.archive.ubuntu.com/ubuntu focal InRelease", "Hit:3 http://us.archive.ubuntu.com/ubuntu focal-updates InRelease", "Hit:4 http://us.archive.ubuntu.com/ubuntu focal-backports InRelease", "Reading package lists...", "Reading package lists...", "Building dependency tree...", "Reading state information...", "python3-venv is already the newest version (3.8.2-0ubuntu2).", "The following packages were automatically installed and are no longer required:", "  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1", "  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0", "  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5", "  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0", "  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data", "  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4", "  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0", "  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3", "  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0", "  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0", "  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5", "  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3", "  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10", "  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info", "  python3-mako rhythmbox-data uno-libs-private ure", "Use 'sudo apt autoremove' to remove them.", "0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.", "Requirement already satisfied: pip in ./lib/oracle-cli/lib/python3.8/site-packages (21.1.1)", "Requirement already satisfied: wheel in ./lib/oracle-cli/lib/python3.8/site-packages (0.36.2)", "Reading package lists...", "Building dependency tree...", "Reading state information...", "libffi-dev is already the newest version (3.3-4).", "python3-dev is already the newest version (3.8.2-0ubuntu2).", "build-essential is already the newest version (12.8ubuntu1.1).", "libssl-dev is already the newest version (1.1.1f-1ubuntu2.3).", "The following packages were automatically installed and are no longer required:", "  gir1.2-gst-plugins-base-1.0 gir1.2-rb-3.0 gstreamer1.0-gtk3 libabw-0.1-1", "  libboost-date-time1.71.0 libboost-filesystem1.71.0 libboost-iostreams1.71.0", "  libboost-locale1.71.0 libcdr-0.1-1 libclucene-contribs1v5 libclucene-core1v5", "  libcmis-0.5-5v5 libcolamd2 libdmapsharing-3.0-2 libe-book-0.1-1 libeot0", "  libepubgen-0.1-1 libetonyek-0.1-1 libexttextcat-2.0-0 libexttextcat-data", "  libfprint-2-tod1 libfreehand-0.1-1 libgpgmepp6 libgpod-common libgpod4", "  libjuh-java libjurt-java liblangtag-common liblangtag1 liblirc-client0", "  libllvm10 libmessaging-menu0 libmhash2 libmspub-0.1-1 libmwaw-0.3-3", "  libmythes-1.2-0 libneon27-gnutls libodfgen-0.1-1 liborcus-0.15-0", "  libpagemaker-0.0-0 libraptor2-0 librasqal3 librdf0 librevenge-0.0-0", "  librhythmbox-core10 libridl-java libsgutils2-2 libsuitesparseconfig5", "  libuno-cppu3 libuno-cppuhelpergcc3-3 libuno-purpenvhelpergcc3-3 libuno-sal3", "  libuno-salhelpergcc3-3 libunoloader-java libvisio-0.1-1 libwpd-0.10-10", "  libwpg-0.3-3 libwps-0.4-4 libxmlsec1-nss libyajl2 lp-solve media-player-info", "  python3-mako rhythmbox-data uno-libs-private ure", "Use 'sudo apt autoremove' to remove them.", "0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.", "Requirement already satisfied: oci_cli[db] in ./lib/oracle-cli/lib/python3.8/site-packages (2.24.5)", "Requirement already satisfied: certifi in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2020.12.5)", "Requirement already satisfied: arrow==0.17.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (0.17.0)", "Requirement already satisfied: pyOpenSSL==19.1.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (19.1.0)", "Requirement already satisfied: oci==2.38.3 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2.38.3)", "Requirement already satisfied: jmespath==0.10.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (0.10.0)", "Requirement already satisfied: python-dateutil<3.0.0,>=2.5.3 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2.8.1)", "Requirement already satisfied: retrying==1.3.3 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (1.3.3)", "Requirement already satisfied: PyYAML==5.4.1 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (5.4.1)", "Requirement already satisfied: cryptography==3.3.2 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (3.3.2)", "Requirement already satisfied: terminaltables==3.1.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (3.1.0)", "Requirement already satisfied: pytz>=2016.10 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (2021.1)", "Requirement already satisfied: six==1.14.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (1.14.0)", "Requirement already satisfied: click==6.7 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (6.7)", "Requirement already satisfied: configparser==4.0.2 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (4.0.2)", "Requirement already satisfied: cx-Oracle==7.0 in ./lib/oracle-cli/lib/python3.8/site-packages (from oci_cli[db]) (7.0.0)", "Requirement already satisfied: cffi>=1.12 in ./lib/oracle-cli/lib/python3.8/site-packages (from cryptography==3.3.2->oci_cli[db]) (1.14.5)", "Requirement already satisfied: pycparser in ./lib/oracle-cli/lib/python3.8/site-packages (from cffi>=1.12->cryptography==3.3.2->oci_cli[db]) (2.20)", "-- Verifying Python version.", "-- Python version 3.8.5 okay.", "-- Executing: ['sudo', 'apt-get', 'update']", "-- Installing python3-venv.", "-- Executing: ['sudo', 'apt-get', 'install', 'python3-venv', '-y']", "-- Trying to use python3 venv.", "-- Executing: ['/usr/bin/python3', '-m', 'venv', '/home/oracle/lib/oracle-cli']", "-- Executing: ['/home/oracle/lib/oracle-cli/bin/pip', 'install', '--upgrade', 'pip']", "-- Executing: ['/home/oracle/lib/oracle-cli/bin/pip', 'install', '--cache-dir', '/tmp/tmp_n3rn7ny', 'wheel', '--upgrade']", "-- Installing native dependencies for Ubuntu.", "-- Executing: ['sudo', 'apt-get', '--assume-yes', 'install', 'libssl-dev', 'libffi-dev', 'python3-dev', 'build-essential']", "-- Executing: ['/home/oracle/lib/oracle-cli/bin/pip', 'install', '--cache-dir', '/tmp/tmp_n3rn7ny', 'oci_cli[db]', '--upgrade']", "-- Backed up '/home/oracle/.bashrc' to '/home/oracle/.bashrc.backup'", "-- Tab completion set up complete.", "-- If tab completion is not activated, verify that '/home/oracle/.bashrc' is sourced by your shell.", "-- ", "-- ** Run `exec -l $SHELL` to restart your shell. **", "-- ", "-- Installation successful.", "-- Run the CLI with /home/oracle/bin/oci --help"]}
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:116
+ok: [192.168.0.3] => {"changed": false, "gid": 0, "group": "root", "mode": "0755", "owner": "oracle", "path": "/home/oracle/bin", "size": 4096, "state": "directory", "uid": 1000}
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:123
+ok: [192.168.0.3] => {"changed": false, "cmd": ["/usr/bin/pip3", "install", "oci"], "name": ["oci"], "requirements": null, "state": "present", "stderr": "", "stderr_lines": [], "stdout": "Requirement already satisfied: oci in /usr/local/lib/python3.8/dist-packages (2.38.3)\nRequirement already satisfied: certifi in /usr/lib/python3/dist-packages (from oci) (2019.11.28)\nRequirement already satisfied: cryptography==3.3.2 in /usr/local/lib/python3.8/dist-packages (from oci) (3.3.2)\nRequirement already satisfied: python-dateutil<3.0.0,>=2.5.3 in /usr/lib/python3/dist-packages (from oci) (2.7.3)\nRequirement already satisfied: configparser==4.0.2 in /usr/local/lib/python3.8/dist-packages (from oci) (4.0.2)\nRequirement already satisfied: pytz>=2016.10 in /usr/lib/python3/dist-packages (from oci) (2019.3)\nRequirement already satisfied: pyOpenSSL<=19.1.0,>=17.5.0 in /usr/local/lib/python3.8/dist-packages (from oci) (19.1.0)\nRequirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.8/dist-packages (from cryptography==3.3.2->oci) (1.14.5)\nRequirement already satisfied: six>=1.4.1 in /usr/lib/python3/dist-packages (from cryptography==3.3.2->oci) (1.14.0)\nRequirement already satisfied: pycparser in /usr/local/lib/python3.8/dist-packages (from cffi>=1.12->cryptography==3.3.2->oci) (2.20)\n", "stdout_lines": ["Requirement already satisfied: oci in /usr/local/lib/python3.8/dist-packages (2.38.3)", "Requirement already satisfied: certifi in /usr/lib/python3/dist-packages (from oci) (2019.11.28)", "Requirement already satisfied: cryptography==3.3.2 in /usr/local/lib/python3.8/dist-packages (from oci) (3.3.2)", "Requirement already satisfied: python-dateutil<3.0.0,>=2.5.3 in /usr/lib/python3/dist-packages (from oci) (2.7.3)", "Requirement already satisfied: configparser==4.0.2 in /usr/local/lib/python3.8/dist-packages (from oci) (4.0.2)", "Requirement already satisfied: pytz>=2016.10 in /usr/lib/python3/dist-packages (from oci) (2019.3)", "Requirement already satisfied: pyOpenSSL<=19.1.0,>=17.5.0 in /usr/local/lib/python3.8/dist-packages (from oci) (19.1.0)", "Requirement already satisfied: cffi>=1.12 in /usr/local/lib/python3.8/dist-packages (from cryptography==3.3.2->oci) (1.14.5)", "Requirement already satisfied: six>=1.4.1 in /usr/lib/python3/dist-packages (from cryptography==3.3.2->oci) (1.14.0)", "Requirement already satisfied: pycparser in /usr/local/lib/python3.8/dist-packages (from cffi>=1.12->cryptography==3.3.2->oci) (2.20)"], "version": null, "virtualenv": null}
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:127
+changed: [192.168.0.3] => {"changed": true, "cmd": ["ansible-galaxy", "install", "oracle.oci_ansible_modules"], "delta": "0:00:00.206491", "end": "2021-05-18 14:55:00.164231", "rc": 0, "start": "2021-05-18 14:54:59.957740", "stderr": "[WARNING]: - oracle.oci_ansible_modules (v1.19.0) is already installed - use\n--force to change version to unspecified", "stderr_lines": ["[WARNING]: - oracle.oci_ansible_modules (v1.19.0) is already installed - use", "--force to change version to unspecified"], "stdout": "", "stdout_lines": []}
+
+TASK [run install python script.] *****************************************************************************************************************************************************************************************************
+task path: /Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml:130
+fatal: [192.168.0.3]: FAILED! => {"changed": false, "cmd": "/home/oracle/.ansible/roles/oracle.oci_ansible_modules/install.py", "msg": "[Errno 2] No such file or directory: b'/home/oracle/.ansible/roles/oracle.oci_ansible_modules/install.py'", "rc": 2}
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=16   changed=6    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml -  
+ERROR! the playbook: - could not be found
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml  
+ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  did not find expected '-' indicator
+
+The error appears to be in '/Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml': line 130, column 5, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+    collections:
+    ^ here
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml 
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host 192.168.0.3 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using 
+the discovered platform python for this host. See https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can 
+be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Create sample up OCI Config file] ***********************************************************************************************************************************************************************************************
+fatal: [192.168.0.3]: FAILED! => {"changed": false, "cmd": "oci setup oci-cli-rc --file /home/oracle/.oci/oci_cli_rc", "msg": "[Errno 2] No such file or directory: b'oci'", "rc": 2}
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=16   changed=6    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml 
+ERROR! We were unable to read either as JSON nor YAML, these are the errors we got from each:
+JSON: Expecting value: line 1 column 1 (char 0)
+
+Syntax Error while loading YAML.
+  did not find expected key
+
+The error appears to be in '/Users/joe/Main/devops/My_DevOps/ubuntu_devops.yml': line 139, column 44, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+    - name: Create sample up OCI Config file
+      command: "/home/{{ user  }}/bin/oci" setup oci-cli-rc --file "/home/{{ user }}/.oci/oci_cli_rc"
+                                           ^ here
+We could be wrong, but this one looks like it might be an issue with
+missing quotes. Always quote template expression brackets when they
+start a value. For instance:
+
+    with_items:
+      - {{ foo }}
+
+Should be written as:
+
+    with_items:
+      - "{{ foo }}"
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml 
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host 192.168.0.3 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using 
+the discovered platform python for this host. See https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can 
+be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Create sample up OCI Config file] ***********************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+ok: [192.168.0.3]
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=19   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+joe@ripley~/Main/devops/My_DevOps % yamllint ubuntu_devops.yml 
+ubuntu_devops.yml
+  61:81     error    line too long (88 > 80 characters)  (line-length)
+  97:1      warning  comment not indented like content  (comments-indentation)
+  100:81    error    line too long (95 > 80 characters)  (line-length)
+  107:46    error    trailing spaces  (trailing-spaces)
+  108:56    error    trailing spaces  (trailing-spaces)
+  109:42    error    trailing spaces  (trailing-spaces)
+  110:60    error    trailing spaces  (trailing-spaces)
+  111:31    error    trailing spaces  (trailing-spaces)
+  131:81    error    line too long (94 > 80 characters)  (line-length)
+  132:23    error    trailing spaces  (trailing-spaces)
+  133:81    error    line too long (99 > 80 characters)  (line-length)
+  145:1     error    trailing spaces  (trailing-spaces)
+
+joe@ripley~/Main/devops/My_DevOps % yamllint ubuntu_devops.yml
+ubuntu_devops.yml
+  17:1      warning  comment not indented like content  (comments-indentation)
+  64:81     error    line too long (88 > 80 characters)  (line-length)
+  100:1     warning  comment not indented like content  (comments-indentation)
+  103:81    error    line too long (95 > 80 characters)  (line-length)
+  110:46    error    trailing spaces  (trailing-spaces)
+  111:56    error    trailing spaces  (trailing-spaces)
+  112:42    error    trailing spaces  (trailing-spaces)
+  113:60    error    trailing spaces  (trailing-spaces)
+  114:31    error    trailing spaces  (trailing-spaces)
+  134:81    error    line too long (94 > 80 characters)  (line-length)
+  135:23    error    trailing spaces  (trailing-spaces)
+  136:81    error    line too long (99 > 80 characters)  (line-length)
+  148:1     error    trailing spaces  (trailing-spaces)
+
+joe@ripley~/Main/devops/My_DevOps % yamllint ubuntu_devops.yml
+ubuntu_devops.yml
+  9:1       error    too many blank lines (3 > 2)  (empty-lines)
+  12:1      warning  comment not indented like content  (comments-indentation)
+  59:81     error    line too long (88 > 80 characters)  (line-length)
+  95:1      warning  comment not indented like content  (comments-indentation)
+  98:81     error    line too long (95 > 80 characters)  (line-length)
+  105:46    error    trailing spaces  (trailing-spaces)
+  106:56    error    trailing spaces  (trailing-spaces)
+  107:42    error    trailing spaces  (trailing-spaces)
+  108:60    error    trailing spaces  (trailing-spaces)
+  109:31    error    trailing spaces  (trailing-spaces)
+  129:81    error    line too long (94 > 80 characters)  (line-length)
+  130:23    error    trailing spaces  (trailing-spaces)
+  131:81    error    line too long (99 > 80 characters)  (line-length)
+  143:1     error    trailing spaces  (trailing-spaces)
+
+joe@ripley~/Main/devops/My_DevOps % yamllint ubuntu_devops.yml
+ubuntu_devops.yml
+  10:1      warning  comment not indented like content  (comments-indentation)
+  57:81     error    line too long (88 > 80 characters)  (line-length)
+  93:1      warning  comment not indented like content  (comments-indentation)
+  96:81     error    line too long (95 > 80 characters)  (line-length)
+  127:81    error    line too long (94 > 80 characters)  (line-length)
+  128:23    error    trailing spaces  (trailing-spaces)
+  129:81    error    line too long (99 > 80 characters)  (line-length)
+  141:1     error    trailing spaces  (trailing-spaces)
+
+joe@ripley~/Main/devops/My_DevOps % yamllint ubuntu_devops.yml
+ubuntu_devops.yml
+  10:1      warning  comment not indented like content  (comments-indentation)
+  57:81     error    line too long (88 > 80 characters)  (line-length)
+  93:1      warning  comment not indented like content  (comments-indentation)
+  96:81     error    line too long (95 > 80 characters)  (line-length)
+  127:81    error    line too long (94 > 80 characters)  (line-length)
+  129:81    error    line too long (99 > 80 characters)  (line-length)
+
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml    
+joe@ripley~/Main/devops/My_DevOps % history
+ 1045  ssh-copy-id oracle@192.168.0.3
+ 1046  ssh-copy-id oracle@192.168.0.3
+ 1047  ssh-copy-id oracle@192.168.0.3
+ 1048  ssh oracle@192.168.0.3
+ 1049  ansible-playbook ubuntu_devops.yml 
+ 1050  ansible-playbook ubuntu_devops.yml -vv
+ 1051  ansible-playbook ubuntu_devops.yml -
+ 1052  ansible-playbook ubuntu_devops.yml 
+ 1053  ansible-playbook ubuntu_devops.yml 
+ 1054  ansible-playbook ubuntu_devops.yml 
+ 1055  ansible-playbook ubuntu_devops.yml 
+ 1056  yamllint ubuntu_devops.yml
+ 1057  yamllint ubuntu_devops.yml
+ 1058  yamllint ubuntu_devops.yml
+ 1059  yamllint ubuntu_devops.yml
+ 1060  yamllint ubuntu_devops.yml
+joe@ripley~/Main/devops/My_DevOps % ansible-lint ubuntu_devops.yml 
+WARNING  Overriding detected file kind 'yaml' with 'playbook' for given positional argument: ubuntu_devops.yml
+WARNING  Listing 6 violation(s) that are fatal
+no-changed-when: Commands should not change things if nothing needs doing
+ubuntu_devops.yml:56 Task/Handler: update python 3 alternatives
+
+git-latest: Git checkouts must contain explicit version
+ubuntu_devops.yml:68 Task/Handler: Clone a devops repo with separate git directory.
+
+git-latest: Git checkouts must contain explicit version
+ubuntu_devops.yml:80 Task/Handler: Clone a devops_class repo with separate git directory.
+
+no-changed-when: Commands should not change things if nothing needs doing
+ubuntu_devops.yml:101 Task/Handler: Install oci cli.
+
+no-changed-when: Commands should not change things if nothing needs doing
+ubuntu_devops.yml:123 Task/Handler: install OCI Ansible galaxy collections.
+
+no-changed-when: Commands should not change things if nothing needs doing
+ubuntu_devops.yml:126 Task/Handler: Create sample up OCI Config file
+
+You can skip specific rules or tags by adding them to your configuration file:
+# .ansible-lint
+warn_list:  # or 'skip_list' to silence them completely
+  - git-latest  # Git checkouts must contain explicit version
+  - no-changed-when  # Commands should not change things if nothing needs doing
+Finished with 6 failure(s), 0 warning(s) on 1 files.
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml 
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:43:34 -0700 (0:00:00.014)       0:00:00.014 ********* 
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:43:35 -0700 (0:00:00.971)       0:00:00.985 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:43:42 -0700 (0:00:06.743)       0:00:07.728 ********* 
+changed: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:46:22 -0700 (0:02:40.489)       0:02:48.218 ********* 
+changed: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:08 -0700 (0:00:45.444)       0:03:33.663 ********* 
+changed: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:40 -0700 (0:00:32.352)       0:04:06.015 ********* 
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:40 -0700 (0:00:00.327)       0:04:06.342 ********* 
+changed: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:45 -0700 (0:00:05.143)       0:04:11.486 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:54 -0700 (0:00:08.917)       0:04:20.403 ********* 
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:55 -0700 (0:00:00.371)       0:04:20.775 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:56 -0700 (0:00:01.162)       0:04:21.937 ********* 
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:56 -0700 (0:00:00.253)       0:04:22.191 ********* 
+changed: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:47:57 -0700 (0:00:00.807)       0:04:22.998 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:48:28 -0700 (0:00:31.427)       0:04:54.426 ********* 
+changed: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:48:29 -0700 (0:00:00.251)       0:04:54.678 ********* 
+changed: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:48:38 -0700 (0:00:09.038)       0:05:03.716 ********* 
+changed: [192.168.0.3]
+
+TASK [Create sample up OCI Config file] ***********************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:48:44 -0700 (0:00:06.042)       0:05:09.759 ********* 
+changed: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:48:46 -0700 (0:00:02.126)       0:05:11.886 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:48:47 -0700 (0:00:01.342)       0:05:13.228 ********* 
+ok: [192.168.0.3]
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=19   changed=17   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Wednesday 19 May 2021  10:48:48 -0700 (0:00:00.971)       0:05:14.200 ********* 
+=============================================================================== 
+Upgrade all apt packages ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 160.49s
+install visual studio code. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 45.44s
+install ansible and linters and git. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 32.35s
+Install oci cli. -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 31.43s
+Install oci ansible modules. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 9.04s
+Clone a devops repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 8.92s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.74s
+install OCI Ansible galaxy collections. ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.04s
+remove unwanted packages. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 5.14s
+Create sample up OCI Config file ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.13s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.34s
+Clone a devops_class repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.16s
+Upgrade all apt packages ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.97s
+Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.97s
+Download oci install.sh. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.81s
+Recursively change ownership of devops directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.37s
+update python 3 alternatives --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.33s
+Recursively change ownership of devops_class directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.25s
+Recursively change ownership of a directory. ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.25s
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:28 -0700 (0:00:00.014)       0:00:00.014 ********* 
+[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host 192.168.0.3 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using 
+the discovered platform python for this host. See https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can 
+be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:30 -0700 (0:00:01.139)       0:00:01.154 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:31 -0700 (0:00:01.408)       0:00:02.563 ********* 
+ok: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:32 -0700 (0:00:00.914)       0:00:03.477 ********* 
+ok: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:33 -0700 (0:00:01.232)       0:00:04.709 ********* 
+ok: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:34 -0700 (0:00:00.718)       0:00:05.428 ********* 
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:34 -0700 (0:00:00.346)       0:00:05.774 ********* 
+ok: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:35 -0700 (0:00:00.772)       0:00:06.547 ********* 
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:36 -0700 (0:00:00.903)       0:00:07.451 ********* 
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:36 -0700 (0:00:00.378)       0:00:07.829 ********* 
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:38 -0700 (0:00:01.231)       0:00:09.061 ********* 
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:38 -0700 (0:00:00.268)       0:00:09.330 ********* 
+ok: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:39 -0700 (0:00:00.754)       0:00:10.085 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:44 -0700 (0:00:04.994)       0:00:15.079 ********* 
+ok: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:44 -0700 (0:00:00.268)       0:00:15.347 ********* 
+ok: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:45 -0700 (0:00:01.189)       0:00:16.537 ********* 
+changed: [192.168.0.3]
+
+TASK [Create sample up OCI Config file] ***********************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:48 -0700 (0:00:02.953)       0:00:19.491 ********* 
+changed: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:50 -0700 (0:00:02.007)       0:00:21.499 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:53:51 -0700 (0:00:01.291)       0:00:22.791 ********* 
+ok: [192.168.0.3]
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=19   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Wednesday 19 May 2021  10:53:52 -0700 (0:00:00.932)       0:00:23.723 ********* 
+=============================================================================== 
+Install oci cli. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 4.99s
+install OCI Ansible galaxy collections. ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.95s
+Create sample up OCI Config file ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.01s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.41s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.29s
+install visual studio code. ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.23s
+Clone a devops_class repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.23s
+Install oci ansible modules. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.19s
+Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.14s
+Upgrade all apt packages ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.93s
+Upgrade all apt packages ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.91s
+Clone a devops repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.90s
+remove unwanted packages. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 0.77s
+Download oci install.sh. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.75s
+install ansible and linters and git. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.72s
+Recursively change ownership of devops directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.38s
+update python 3 alternatives --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.35s
+Recursively change ownership of devops_class directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.27s
+Recursively change ownership of a directory. ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.27s
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:58:56 -0700 (0:00:00.016)       0:00:00.016 ********* 
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:58:58 -0700 (0:00:01.429)       0:00:01.446 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  10:59:05 -0700 (0:00:06.858)       0:00:08.304 ********* 
+changed: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:01:40 -0700 (0:02:34.896)       0:02:43.201 ********* 
+changed: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:02:27 -0700 (0:00:47.298)       0:03:30.499 ********* 
+changed: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:00 -0700 (0:00:33.657)       0:04:04.157 ********* 
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:01 -0700 (0:00:00.336)       0:04:04.494 ********* 
+changed: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:06 -0700 (0:00:05.035)       0:04:09.529 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:10 -0700 (0:00:03.986)       0:04:13.516 ********* 
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:10 -0700 (0:00:00.348)       0:04:13.864 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:12 -0700 (0:00:01.324)       0:04:15.189 ********* 
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:12 -0700 (0:00:00.252)       0:04:15.441 ********* 
+changed: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:13 -0700 (0:00:00.775)       0:04:16.217 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:44 -0700 (0:00:31.629)       0:04:47.846 ********* 
+changed: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:44 -0700 (0:00:00.243)       0:04:48.090 ********* 
+changed: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:53 -0700 (0:00:08.617)       0:04:56.708 ********* 
+changed: [192.168.0.3]
+
+TASK [Create sample up OCI Config file] ***********************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:03:59 -0700 (0:00:06.372)       0:05:03.080 ********* 
+changed: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:01 -0700 (0:00:02.001)       0:05:05.082 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:04 -0700 (0:00:02.303)       0:05:07.385 ********* 
+ok: [192.168.0.3]
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=19   changed=17   unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Wednesday 19 May 2021  11:04:05 -0700 (0:00:00.896)       0:05:08.282 ********* 
+=============================================================================== 
+Upgrade all apt packages ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 154.90s
+install visual studio code. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 47.30s
+install ansible and linters and git. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 33.66s
+Install oci cli. -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 31.63s
+Install oci ansible modules. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 8.62s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.86s
+install OCI Ansible galaxy collections. ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 6.37s
+remove unwanted packages. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 5.04s
+Clone a devops repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 3.99s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.30s
+Create sample up OCI Config file ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.00s
+Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.43s
+Clone a devops_class repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.32s
+Upgrade all apt packages ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.90s
+Download oci install.sh. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.78s
+Recursively change ownership of devops directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.35s
+update python 3 alternatives --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.34s
+Recursively change ownership of devops_class directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.25s
+Recursively change ownership of a directory. ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.24s
+joe@ripley~/Main/devops/My_DevOps % ansible-playbook ubuntu_devops.yml
+
+PLAY [all] ****************************************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ****************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:11 -0700 (0:00:00.015)       0:00:00.015 ********* 
+[DEPRECATION WARNING]: Distribution ubuntu 20.04 on host 192.168.0.3 should use /usr/bin/python3, but is using /usr/bin/python for backward compatibility with prior Ansible releases. A future Ansible release will default to using 
+the discovered platform python for this host. See https://docs.ansible.com/ansible/2.10/reference_appendices/interpreter_discovery.html for more information. This feature will be removed in version 2.12. Deprecation warnings can 
+be disabled by setting deprecation_warnings=False in ansible.cfg.
+ok: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:12 -0700 (0:00:00.809)       0:00:00.824 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:13 -0700 (0:00:01.326)       0:00:02.150 ********* 
+ok: [192.168.0.3]
+
+TASK [install visual studio code.] ****************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:14 -0700 (0:00:00.895)       0:00:03.046 ********* 
+ok: [192.168.0.3]
+
+TASK [install ansible and linters and git.] *******************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:15 -0700 (0:00:01.127)       0:00:04.173 ********* 
+ok: [192.168.0.3]
+
+TASK [update python 3 alternatives] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:16 -0700 (0:00:00.721)       0:00:04.895 ********* 
+changed: [192.168.0.3]
+
+TASK [remove unwanted packages.] ******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:17 -0700 (0:00:00.335)       0:00:05.230 ********* 
+ok: [192.168.0.3]
+
+TASK [Clone a devops repo with separate git directory.] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:17 -0700 (0:00:00.733)       0:00:05.964 ********* 
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops directory] *******************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:18 -0700 (0:00:00.850)       0:00:06.814 ********* 
+changed: [192.168.0.3]
+
+TASK [Clone a devops_class repo with separate git directory.] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:18 -0700 (0:00:00.347)       0:00:07.162 ********* 
+ok: [192.168.0.3]
+
+TASK [Recursively change ownership of devops_class directory] *************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:19 -0700 (0:00:00.698)       0:00:07.860 ********* 
+changed: [192.168.0.3]
+
+TASK [Download oci install.sh.] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:19 -0700 (0:00:00.248)       0:00:08.109 ********* 
+ok: [192.168.0.3]
+
+TASK [Install oci cli.] ***************************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:20 -0700 (0:00:00.547)       0:00:08.656 ********* 
+changed: [192.168.0.3]
+
+TASK [Recursively change ownership of a directory.] ***********************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:25 -0700 (0:00:04.529)       0:00:13.185 ********* 
+ok: [192.168.0.3]
+
+TASK [Install oci ansible modules.] ***************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:25 -0700 (0:00:00.284)       0:00:13.470 ********* 
+ok: [192.168.0.3]
+
+TASK [install OCI Ansible galaxy collections.] ****************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:26 -0700 (0:00:01.170)       0:00:14.640 ********* 
+changed: [192.168.0.3]
+
+TASK [Create sample up OCI Config file] ***********************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:29 -0700 (0:00:02.642)       0:00:17.283 ********* 
+changed: [192.168.0.3]
+
+TASK [Update apt-get repo and cache.] *************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:31 -0700 (0:00:01.969)       0:00:19.253 ********* 
+changed: [192.168.0.3]
+
+TASK [Upgrade all apt packages] *******************************************************************************************************************************************************************************************************
+Wednesday 19 May 2021  11:04:32 -0700 (0:00:01.283)       0:00:20.537 ********* 
+ok: [192.168.0.3]
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************
+192.168.0.3                : ok=19   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Wednesday 19 May 2021  11:04:33 -0700 (0:00:00.913)       0:00:21.450 ********* 
+=============================================================================== 
+Install oci cli. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 4.53s
+install OCI Ansible galaxy collections. ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 2.64s
+Create sample up OCI Config file ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.97s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.33s
+Update apt-get repo and cache. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.28s
+Install oci ansible modules. --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.17s
+install visual studio code. ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 1.13s
+Upgrade all apt packages ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.91s
+Upgrade all apt packages ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.90s
+Clone a devops repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.85s
+Gathering Facts ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.81s
+remove unwanted packages. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ 0.73s
+install ansible and linters and git. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.72s
+Clone a devops_class repo with separate git directory. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.70s
+Download oci install.sh. ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.55s
+Recursively change ownership of devops directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.35s
+update python 3 alternatives --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.34s
+Recursively change ownership of a directory. ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.28s
+Recursively change ownership of devops_class directory ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 0.25s
+joe@ripley~/Main/devops/My_DevOps % 
