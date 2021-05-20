@@ -139,8 +139,7 @@
         force_apt_get: true
 
 
-# install maven
-# install jdk and remove open jdk
+# install oracle okit - requres docker & start docker
 
 
 # https://www.ansibletutorials.com/adding-users
