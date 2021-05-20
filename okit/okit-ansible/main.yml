@@ -1,0 +1,86 @@
+---
+# -- Copyright: Copyright (c) 2020, 2021, Oracle and/or its affiliates.
+# ---- Author : Andrew Hopkinson (Oracle Cloud Solutions A-Team)
+- name: Create / Update / Destroy Nat Instance Infrastructure
+  hosts: localhost
+  connection: local
+  vars_files:
+    - variables.yml
+  tasks:
+
+# ------ Retrieve Regional / Cloud Data
+# -------- Get a list of Availability Domains
+    - name: Get details of all the availability domains in your tenancy for a specified non-default region
+      oci_ad_facts:
+        compartment_id: "{{ compartment_ocid }}"
+        region: "{{ region }}"
+      register: AvailabilityDomains
+
+# -------- Get Home Region Name
+    - name: Get Region Subscription
+      oci_region_subscription_facts:
+        id: "{{ tenancy_ocid }}"
+      register: RegionSubscriptions
+
+    - set_fact:
+        HomeRegion: "{{ (RegionSubscriptions.region_subscriptions | selectattr('is_home_region') | list)[0] }}"
+        HomeRegionName: "{{ (RegionSubscriptions.region_subscriptions | selectattr('is_home_region') | map(attribute='region_name') | list)[0] }}"
+
+#    - debug: msg="{{ HomeRegion }}"
+    - debug: msg="Home Region {{ HomeRegionName }}"
+    - debug: msg="Working Region {{ region }}"
+
+    - name: Get details of all the available services
+      oci_service_facts:
+        region: "{{ region }}"
+      register: RegionServices
+
+
+# ------ Create Compartment - Root True
+# ------ Root Compartment
+    - set_fact:
+        Okit_Comp001_id: "{{ compartment_ocid }}"
+        Okit_Comp001_ocid: "{{ compartment_ocid }}"
+
+
+
+# ------ Create Compartment - Root False
+# ------ Create Compartment
+    - name: Get Compartment okit-comp002
+      oci_compartment_facts:
+        region: "{{ HomeRegion.region_name }}"
+        compartment_id: "{{ Okit_Comp001_id }}"
+        name: "okit-comp002"
+        fetch_subcompartments: True
+      register: Okit_Comp002List
+
+    - name: Create Compartment okit-comp002
+      oci_compartment:
+        region: "{{ HomeRegion.region_name }}"
+        state: "present"
+        # Required
+        parent_compartment_id: "{{ Okit_Comp001_id }}"
+        name: "okit-comp002"
+        description: "okit-comp002"
+        # Optional
+        wait_until: "ACTIVE"
+      register: Okit_Comp002
+      when:
+        - Okit_Comp002List.compartments | length == 0
+
+    - name: Get Compartment okit-comp002
+      oci_compartment_facts:
+        region: "{{ HomeRegion.region_name }}"
+        compartment_id: "{{ Okit_Comp001_id }}"
+        name: "okit-comp002"
+        fetch_subcompartments: True
+      register: Okit_Comp002List
+
+    - set_fact:
+        Okit_Comp002_id: "{{ (Okit_Comp002List.compartments | map(attribute='id') | list | first) }}"
+        Okit_Comp002_ocid: "{{ (Okit_Comp002List.compartments | map(attribute='id') | list | first) }}"
+
+    - pause:
+        seconds: 10
+
+
