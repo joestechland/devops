@@ -27,10 +27,19 @@
       mount:
         path: /home/{{ user }}/shares
         src: .host:/
-        fstype: vmhgfs-fuse
-        opts: allow_other
+        fstype: fuse.vmhgfs-fuse
+        opts: defaults,allow_other
         state: present
       when: server_facts.ansible_facts.ansible_virtualization_type == "VMware"
+ #     become: false
+# +change /etc/fuse.conf to allow_other
+
+    - name: Recursively change ownership of shares directory.
+      file:
+        path: "/home/{{ user }}/shares"
+        state: directory
+        recurse: true
+        owner: "{{ user }}"
 
 
     - name: Update apt-get repo and cache.
