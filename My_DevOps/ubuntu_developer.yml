@@ -4,28 +4,28 @@
   vars_files: vars/main_vars.yml
   tasks:
 
-    # - name: Copy java jdk file to Downloads.
-    #   copy:
-    #     src: "{{ java_src_dir }}/{{ java_src_file }}"
-    #     dest: "{{ download_dir }}"
+    - name: Copy java jdk file to Downloads.
+      copy:
+        src: "{{ java_src_dir }}/{{ java_src_file }}"
+        dest: "{{ download_dir }}"
 
-    # - name: Copy intellij file to Downloads.
-    #   copy:
-    #     src: "{{ intellij_src_dir }}/{{ intellij_src_file }}"
-    #     dest: "{{ download_dir }}"
+    - name: Copy intellij file to Downloads.
+      copy:
+        src: "{{ intellij_src_dir }}/{{ intellij_src_file }}"
+        dest: "{{ download_dir }}"
 
-    # - name: Copy Jdk, intellij, set up files.
-    #   copy:
-    #     src: '{{ item }}'
-    #     dest: "{{ download_dir }}"
-    #     owner: "{{ user }}"
-    #     group: "{{ user }}"
-    #     mode: 0644
-    #     force: false
-    #   loop:
-    #     - "{{ java_src_dir }}/{{ java_src_file }}"
-    #     - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
-    #   become: false
+    - name: Copy Jdk, intellij, set up files.
+      copy:
+        src: '{{ item }}'
+        dest: "{{ download_dir }}"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0644
+        force: false
+      loop:
+        - "{{ java_src_dir }}/{{ java_src_file }}"
+        - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
+      become: false
 
     - name: download and unzip jmeter.
       unarchive:
