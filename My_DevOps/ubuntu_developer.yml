@@ -1,0 +1,66 @@
+---
+- hosts: localhost
+  become: true
+  vars_files: vars/main_vars.yml
+  tasks:
+
+    # - name: Copy java jdk file to Downloads.
+    #   copy:
+    #     src: "{{ java_src_dir }}/{{ java_src_file }}"
+    #     dest: "{{ download_dir }}"
+
+    # - name: Copy intellij file to Downloads.
+    #   copy:
+    #     src: "{{ intellij_src_dir }}/{{ intellij_src_file }}"
+    #     dest: "{{ download_dir }}"
+
+    - name: Copy Jdk, intellij, set up files.
+      copy:
+        src: '{{ item }}'
+        dest: "{{ download_dir }}"
+        owner: "{{ user }}"
+        group: "{{ user }}"
+        mode: 0644
+        force: false
+      loop:
+        - "{{ java_src_dir }}/{{ java_src_file }}"
+        - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
+      become: false
+
+    - name: download and unzip jmeter.
+      unarchive:
+        src: https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+        dest: "{{ download_dir }}"
+        remote_src: yes
+        creates: "{{ download_dir }}/apache-jmeter-5.4.1"
+      become: false
+
+    - name: Install Java deb pkg.
+      apt: 
+        deb: "{{ download_dir }}/{{ java_src_file }}"
+        state: present
+
+# set path for Java and java home
+    - name: Create java.sh and add path and java home.
+      lineinfile:
+        path: /etc/profile.d/jdk11.sh
+        line: "{{ item }}"
+        create: yes
+      loop:
+        - export JAVA_HOME=/usr/lib/jvm/jdk-11.0.1
+        - export PATH=$PATH:${JAVA_HOME}/bin
+
+
+
+    - name: Update apt-get repo and cache.
+      apt:
+        update_cache: true
+
+    - name: Upgrade all apt packages
+      apt:
+        upgrade: dist
+        force_apt_get: true    
+
+  # install maven
+  # install jmeter  
+  # install docker?

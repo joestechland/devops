@@ -1,5 +1,5 @@
 ---
-- hosts: localhost  
+- hosts: localhost
   become: true
 
   vars_files:
@@ -8,6 +8,30 @@
   tasks:
 
 # must install openssh-server on new machine first, then copy ofer ssh key
+
+    - name: Gather facts.
+      setup:
+      register: server_facts
+
+    - name: display server facts
+      debug:
+        msg: "{{ server_facts.ansible_facts.ansible_virtualization_type  }}"
+
+    - name: Create shares dir
+      file:
+        path: "/home/{{ user }}/shares"
+        state: directory
+      become: false
+
+    - name: mount Shares if VMWare.
+      mount:
+        path: /home/{{ user }}/shares
+        src: .host:/
+        fstype: vmhgfs-fuse
+        opts: allow_other
+        state: present
+      when: server_facts.ansible_facts.ansible_virtualization_type == "VMware"
+
 
     - name: Update apt-get repo and cache.
       apt:
@@ -52,10 +76,13 @@
           - python3-pip
           - gkrellm
           - sshfs
+          - oracle-java11-set-default
+
     - name: Install VM, Docker, K8s.
       apt:
         pkg:
           - vagrant
+          - virtualbox
           - apt-transport-https
           - ca-certificates
           - software-properties-common
@@ -80,9 +107,10 @@
     - name: Clone a devops repo with separate git directory.
       git:
         repo: "{{ git_root }}/{{ devops_repo }}"
-        dest: "/home/{{ user }}{{ devops_repo }}"
+        dest: "/home/{{ user }}/{{ devops_repo }}"
+        update: false
 
-    - name: Recursively change ownership of devops directory
+    - name: Recursively change ownership of devops directory.
       file:
         path: "/home/{{ user }}/{{ devops_repo }}"
         state: directory
@@ -92,10 +120,11 @@
     - name: Clone a devops_class repo with separate git directory.
       git:
         repo: "{{ git_root }}/{{ devops_class_repo }}"
-        dest: "/home/{{ user }}{{ devops_class_repo }}"
+        dest: "/home/{{ user }}/{{ devops_class_repo }}"
+        update: false
 
 
-    - name: Recursively change ownership of devops_class directory
+    - name: Recursively change ownership of devops_class directory.
       file:
         path: "/home/{{ user }}/{{ devops_class_repo }}"
         state: directory
@@ -109,6 +138,7 @@
         dest: "/home/{{ user }}/Downloads/install.sh"
         mode: '0777'
         owner: "{{ user }}"
+      become: false
 
     - name: Install oci cli.
       shell: >
@@ -119,9 +149,10 @@
         --optional-features db
         --update-path-and-enable-tab-completion
         --rc-file-path "/home/{{ user }}/.bashrc"
+      become: false
 
 
-    - name: Recursively change ownership of a directory.
+    - name: Recursively change ownership of bin directory.
       file:
         path: /home/{{ user }}/bin
         state: directory
@@ -136,7 +167,7 @@
       command: ansible-galaxy collection install oracle.oci
 
     - name: Create sample up OCI Config file
-      command: /home/oracle/bin/oci setup oci-cli-rc --file "/home/{{ user }}/.oci/oci_cli_rc"
+      command: /home/{{ user }}/bin/oci setup oci-cli-rc --file "/home/{{ user }}/.oci/oci_cli_rc"
     # copy config file
     # sshfs oracle@ed-devops.us.oracle.com:/home/oracle/ocic_scripts/Ansible_Playbooks/ ~/ed-devops
     # cd && fusermount -u ~/ed-devops
