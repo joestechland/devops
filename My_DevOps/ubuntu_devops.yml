@@ -9,13 +9,9 @@
 
 # must install openssh-server on new machine first, then copy ofer ssh key
 
-    - name: Gather facts.
-      setup:
-      register: server_facts
-
     - name: display server facts
       debug:
-        msg: "{{ server_facts.ansible_facts.ansible_virtualization_type  }}"
+        msg: "{{ ansible_facts.virtualization_type  }}"
 
     - name: Create shares dir
       file:
@@ -30,7 +26,7 @@
         fstype: fuse.vmhgfs-fuse
         opts: defaults,allow_other
         state: present
-      when: server_facts.ansible_facts.ansible_virtualization_type == "VMware"
+      when: ansible_facts.virtualization_type == "VMware"
  #     become: false
 # +change /etc/fuse.conf to allow_other
 

@@ -1,1 +1,29 @@
 ---
+- hosts: all
+  gather_facts: false
+  become: true
+  vars_files:
+    vars/main_vars.yml
+  tasks:
+    - name: update yum.
+      yum:
+        name: "*"
+        state: latest
+
+    - name: create Group
+      group:
+        name: oracle
+        state: present
+
+    - name: add user.
+      user:
+        name: "{{ create_user }}"
+        group: "{{ create_group }}"
+        createhome: true
+        password: "{{ vaulted_password | password_hash('sha512') }}"
+        system: true
+
+    - name: install git
+      yum:
+        name: git
+        state: present
