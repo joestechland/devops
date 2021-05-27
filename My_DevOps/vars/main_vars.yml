@@ -2,8 +2,10 @@
     git_root: https://github.com/joestechland
     devops_repo: devops.git
     devops_class_repo: devops_class.git
-    ansible_ssh_pass: oracle.
-    user: joe
+    ansible_ssh_private_key_file: ~/.ssh/ansible
+    ansible_become_pass: oracle 
+    ansible_ssh_pass: oracle
+    user: oracle
 
     working_dir: "/home/{{ user }}"
     shared_dir: "{{ working_dir }}/shares"
@@ -11,8 +13,7 @@
 
     java_src_dir: "{{ src_file_dir }}/Oracle/JVMs"
     java_src_file: jdk-11.0.11_linux-x64_bin.deb
-    # java_jdk_name: "{{download_folder}}/jdk-11.0.6"
-    # java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"
+
     
     intellij_src_file: ideaIU-2021.1.1.tar.gz
     intellij_src_dir: "{{ src_file_dir }}/Linux"
