@@ -9,31 +9,41 @@
       yum:
         name: "*"
         state: latest
-
-    - name: create Group
-      group:
-        name: oracle
-        state: present
-
-    - name: add user.
-      user:
-        name: "{{ create_user }}"
-        group: "{{ create_group }}"
-        createhome: true
-        password: "{{ vaulted_password | password_hash('sha512') }}"
-        system: true
+      
 
     - name: add Oracle to sudoers file.
       lineinfile:
         path: /etc/sudoers
-        line: "oracle  ALL=(ALL) NOPASSWD:ALL"        
+        line: "oracle  ALL=(ALL) NOPASSWD:ALL"   
+        state: present
 
     - name: install git
       yum:
         name: git
         state: present
-      
+
     - name: remove open jdk.
       yum:
         name: java*
         state: absent
+
+    - name: Install the 'Gnome desktop' environment group.
+        yum:
+          name:
+            - "@GNOME"
+            - "@X Window System"
+            # - "@^gnome-desktop-environment"
+            # - "@development-tools"
+            # - "@^gnome-desktop-environment"
+          state: latest
+
+      - name: Change default target to graphical.target.
+        file:
+          src: /usr/lib/systemd/system/graphical.target
+          dest: /etc/systemd/system/default.target
+          state: link
+
+      - name: start the gnome service.
+        systemd:
+          name: "graphical.target"
+          state: started
