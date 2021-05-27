@@ -1,0 +1,27 @@
+# _*_ mode: ruby _*_
+# vi: set ft=ruby :
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  # General Vagrant VM configurations
+  #config.vm.box = "generic/oracle7"
+  config.ssh.insert_key = false
+  config.vm.synced_folder ".","/vagrant", disabled: true
+  config.vm.provider :virtualbox do |v|
+      v.memory = 4096
+      #v.linked_clone = true
+  end
+
+
+  # Test OCI Dev Build server 1.
+  config.vm.define "ocidev" do |app|
+	app.vm.box = "generic/oracle7"
+    app.vm.hostname = "ocidev.example.com"
+    app.vm.network :public_network, ip:"192.168.0.205"
+  end
+
+
+
+
+
+end

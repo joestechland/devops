@@ -1,0 +1,78 @@
+1. change hostname to o7ocidev.example.com
+2. reboot
+3. update yum
+4. install intellij, jdk, git, docker, jmeter, gkrellm, open-vm-tools, 
+5. add oracle to sudoer
+
+yum install open-vm-tools
+
+yum install git
+
+#sudo yum install -y yum-utils
+/etc/yum.repos.d/docker-ce.repo, with this content:
+
+[centos-extras]
+name=Centos extras - $basearch
+baseurl=http://mirror.centos.org/centos/7/extras/x86_64
+enabled=1
+gpgcheck=0
+yum -y install slirp4netns fuse-overlayfs container-selinux
+yum install docker-ce docker-ce-cli containerd.io
+
+cat /etc/yum.repos.d/epel-yum-ol7.repo
+[ol7_epel]
+name=Oracle Linux $releasever EPEL ($basearch)
+baseurl=http://yum.oracle.com/repo/OracleLinux/OL7/developer_EPEL/$basearch/
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-oracle
+gpgcheck=1
+enabled=1
+
+gkrellm needs 
+libntlm-1.3-0.6.el7.x86_64.rpm
+
+remove  openjdk
+yum remove java-1*
+install jdk - upload rpm and install
+
+jmeter
+https://mirrors.ocf.berkeley.edu/apache//jmeter/binaries/apache-jmeter-5.4.1.tgz
+expand
+
+download wallet_javaocidb.zip
+
+install maven:
+https://ftp.wayne.edu/apache/maven/maven-3/3.8.1/binaries/apache-maven-3.8.1-bin.tar.gz & unzip
+sudo mv apache-maven-3.0.5  /usr/local/apache-maven
+Next add the env variables to your ~/.bashrc file
+export M2_HOME=/usr/local/apache-maven
+export M2=$M2_HOME/bin 
+export PATH=$M2:$PATH
+Execute these commands
+source ~/.bashrc
+ test mvn -version
+
+mkdir /home/oracle/development
+cd to development
+
+download helidon quickstart
+mvn -U archetype:generate -DinteractiveMode=false \
+    -DarchetypeGroupId=io.helidon.archetypes \
+    -DarchetypeArtifactId=helidon-quickstart-mp \
+    -DarchetypeVersion=2.3.0 \
+    -DgroupId=io.helidon.examples \
+    -DartifactId=helidon-quickstart-mp \
+    -Dpackage=io.helidon.examples.quickstart.mp
+
+cd helidon
+mvn package
+
+provision an ATP Database
+Install OE and HR schemas
+Install Sqldev on host - rpm
+download schemas
+
+
+install lab files for schemas on host
+
+
+
