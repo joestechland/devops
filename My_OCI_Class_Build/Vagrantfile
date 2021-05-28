@@ -6,15 +6,15 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  config.ssh.insert_key = false
+ # config.ssh.insert_key = false
   config.vm.provider :virtualbox do |v|
     v.memory = 4096
   end
-  config.vm.define "OCIDev7" do |dev|
-    dev.vm.box = "oraclelinux/7"
-#    dev.vm.box_url = "https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json"
-    dev.vm.box_url = "https://oracle.github.io/vagrant-projects/boxes/oraclelinux/7.json"
-    dev.vm.hostname = "07-ocidev.example.com"
+  config.vm.define "OCIDev8" do |dev|
+    dev.vm.box = "oraclelinux/8"
+    dev.vm.box_url = "https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json"
+#    dev.vm.box_url = "https://oracle.github.io/vagrant-projects/boxes/oraclelinux/7.json"
+    dev.vm.hostname = "javaocidev.example.com"
     dev.vm.network :public_network, ip:"192.168.0.205"
   end
   # config.vm.provision :ansible do |ansible|

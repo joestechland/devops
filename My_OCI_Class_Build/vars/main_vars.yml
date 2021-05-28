@@ -4,7 +4,7 @@
     devops_class_repo: devops_class.git
     ansible_ssh_pass: oracle
     ansible_become_pass: oracle 
-    user: oracle
+ #   user: vagrant
     create_user: oracle
     create_group: oracle
 

@@ -1,21 +1,16 @@
 ---
-- hosts: all
+- hosts: ocidev
   gather_facts: false
   become: true
   vars_files:
     vars/main_vars.yml
-  tasks:
-    - name: update yum.
-      yum:
-        name: "*"
-        state: latest
-      
+  handlers:
+    - import_tasks: handlers.yml
 
-    - name: add Oracle to sudoers file.
-      lineinfile:
-        path: /etc/sudoers
-        line: "oracle  ALL=(ALL) NOPASSWD:ALL"   
-        state: present
+  tasks:
+
+    - name: Create group and user.
+      import_tasks: create_user.yml
 
     - name: install git
       yum:
@@ -27,23 +22,6 @@
         name: java*
         state: absent
 
-    - name: Install the 'Gnome desktop' environment group.
-        yum:
-          name:
-            - "@GNOME"
-            - "@X Window System"
-            # - "@^gnome-desktop-environment"
-            # - "@development-tools"
-            # - "@^gnome-desktop-environment"
-          state: latest
-
-      - name: Change default target to graphical.target.
-        file:
-          src: /usr/lib/systemd/system/graphical.target
-          dest: /etc/systemd/system/default.target
-          state: link
-
-      - name: start the gnome service.
-        systemd:
-          name: "graphical.target"
-          state: started
+# install gnome
+    - name: import Gnome tasks.
+      import_tasks: install_gnome.yml

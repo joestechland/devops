@@ -1,0 +1,10 @@
+Create a working directory for your development project and from within that directory, issue the following commands, subsituting the url for one of the following, depending on the release of Oracle Linux you want:
+
+    Oracle Linux 8: https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json
+    Oracle Linux 7: https://oracle.github.io/vagrant-projects/boxes/oraclelinux/7.json
+
+$ vagrant init oraclelinux/{release} <box json url>
+vagrant init oraclelinux/8 https://oracle.github.io/vagrant-projects/boxes/oraclelinux/8.json
+$ vagrant up
+$ vagrant ssh 
+10.0.2.15
