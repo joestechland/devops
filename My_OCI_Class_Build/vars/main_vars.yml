@@ -9,18 +9,16 @@
     create_group: oracle
 
     working_dir: "/home/{{ user }}"
-    shared_dir: "{{ working_dir }}/shares"
-    src_file_dir: "{{ shared_dir }}/Software"
+    src_file_dir: ~/Downloads
 
-    java_src_dir: "{{ src_file_dir }}/Oracle/JVMs"
-    java_src_file: jdk-11.0.11_linux-x64_bin.deb
-    # java_jdk_name: "{{download_folder}}/jdk-11.0.6"
-    # java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"
-    
+    dest_dir: "/home/{{ create_user }}/Downloads"
+
+    java_src_dir: "{{ src_file_dir }}"
+    java_src_file: jdk-11.0.11_linux-x64_bin.rpm
+
     intellij_src_file: ideaIU-2021.1.1.tar.gz
-    intellij_src_dir: "{{ src_file_dir }}/Linux"
+    intellij_src_dir: "{{ src_file_dir }}"
 
     jmeter_src_file: 
     
 
-    download_dir: "{{ working_dir }}/Downloads"

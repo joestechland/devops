@@ -27,8 +27,12 @@
 
     - name: remove open jdk.
       yum:
-        name: java*
+        name: java-1*
         state: absent
+      tags: done
+
+    - name: install jdk and intellij and jmeter.
+      import_tasks: install_stuff.yml
       tags: done
 
 # install gnome
