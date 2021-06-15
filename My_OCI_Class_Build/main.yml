@@ -2,12 +2,15 @@
 - hosts: ocidev
   gather_facts: false
   become: true
-  vars_files:
-    vars/main_vars.yml
+  vars_files: vars/main_vars.yml
   handlers:
     - import_tasks: handlers.yml
 
   tasks:
+# Assuming VBox Bare Base OEL 7 image with Gnome and oracle/oracle user
+# add oracle to sudoers
+# change hostname and etc hostname
+
 
     - name: Create group and user.
       import_tasks: create_user.yml
@@ -25,14 +28,28 @@
         state: present
       tags: done
 
+      
+# install gkrellm
+# install soapui
+# install sqldev
+# install derby
+# install lab files - clone oustudent1 javaoci_containers_1 repo
+# install docker
+# install minikube
+# install jenkins
+
+
     - name: remove open jdk.
       yum:
         name: java-1*
         state: absent
       tags: done
 
-    - name: install jdk and intellij and jmeter.
-      import_tasks: install_stuff.yml
+    # - name: Install Java JDK and remove open JDK.
+    #   import_role: install_java.yml
+
+    - name: install intellij, jmeter soapui, derby.
+      import_tasks: install_java_tools.yml
       tags: done
 
 # install gnome
