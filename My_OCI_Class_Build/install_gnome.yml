@@ -8,7 +8,7 @@
         # - "@development-tools"
         # - "@^gnome-desktop-environment"
     state: latest
-
+- 
 - name: Change default target to graphical.target.
   file:
     src: /usr/lib/systemd/system/graphical.target
@@ -20,6 +20,3 @@
     name: "graphical.target"
     state: started
   notify: restart server
-
-
-...
