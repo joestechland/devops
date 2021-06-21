@@ -1,0 +1,13 @@
+---
+- name: install git, gkrellm, python3 pip
+  package:
+    name:
+      - git
+      - curl
+      - python3
+      - python3-pip
+      # - gkrellm
+      # - sshfs
+    state: present
+
+#    rpm -i gkrellm-X.Y.Z-1.i386.rpm

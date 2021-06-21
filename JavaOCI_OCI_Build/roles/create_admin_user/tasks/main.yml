@@ -1,0 +1,23 @@
+---
+- name: Create user's group.
+  group:
+    name: "{{ create_group }}"
+    state: present
+
+- name: Create user.
+  user:
+    name: "{{ create_user }}"
+    createhome: true
+    password: "{{ vaulted_password | password_hash('sha512') }}"
+    group: "{{ create_group }}"
+    state: present
+  register: uservar
+  tags: user
+  changed_when: uservar.state !="present"
+
+- name: add user to sudoers file.
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ create_user }}  ALL=(ALL) NOPASSWD:ALL"
+    state: present
+...

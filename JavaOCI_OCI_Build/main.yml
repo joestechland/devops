@@ -1,0 +1,17 @@
+---
+  - hosts: ocidev
+    become: true
+#      - update yum, new user: oracle, add to sudoer, git, curl, python3, python-pip3, java jdk 16 + env vars, derby db, jmeter, intellij,
+#      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
+    roles:
+      # - role: update_distro
+
+      # - role: create_admin_user
+
+      # - role: add_linux_support
+
+      # - role: create_java_development
+
+      # - role: gantsign.maven
+
+        - role: install_docker
