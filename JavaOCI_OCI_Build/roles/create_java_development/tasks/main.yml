@@ -17,21 +17,12 @@
     - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
   become: true
 
-- name: download and unzip jmeter.
-  unarchive:
-    src: https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
-    dest: "{{ dest_dir }}"
-    remote_src: true
-    creates: "{{ dest_dir }}/apache-jmeter-5.4.1"
-  become: true
-
 - name: Install Java rpm pkg.
   yum: 
     name: "{{ dest_dir }}/{{ java_src_file }}"
     state: present
     disable_gpg_check: true
   become: true
-
 
 # set path for Java and java home
 - name: Create java.sh and add path and java home.
@@ -49,3 +40,11 @@
     dest:  "{{ working_dir }}"
     remote_src: true
     owner: "{{ create_user }}"
+
+- name: download and unzip jmeter.
+  unarchive:
+    src: https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+    dest: "{{ dest_dir }}"
+    remote_src: true
+    creates: "{{ dest_dir }}/apache-jmeter-5.4.1"
+  become: true

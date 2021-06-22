@@ -1,8 +1,8 @@
 ---
     working_dir: "/home/{{ user }}"
-    src_file_dir: ~/Downloads
+    src_file_dir: "/home/{{ user }}/Downloads"
 
-    dest_dir: "/home/{{ create_user }}/Downloads"
+    dest_dir: "/home/{{ create_user }}/Downloads/"
 
     java_src_dir: "{{ src_file_dir }}"
     java_src_file: jdk-11.0.11_linux-x64_bin.rpm

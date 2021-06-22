@@ -1,0 +1,22 @@
+---
+- name: Install the 'Gnome desktop' environment group.
+  yum:
+    name:
+      - "@GNOME"
+ #     - "@Legacy X Window System Compatibility"
+        # - "@^gnome-desktop-environment"
+        # - "@development-tools"
+        # - "@^gnome-desktop-environment"
+    state: latest
+- 
+- name: Change default target to graphical.target.
+  file:
+    src: /usr/lib/systemd/system/graphical.target
+    dest: /etc/systemd/system/default.target
+    state: link
+
+- name: start the gnome service.
+  systemd:
+    name: "graphical.target"
+    state: started
+  notify: restart server
