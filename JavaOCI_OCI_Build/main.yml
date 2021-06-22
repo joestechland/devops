@@ -16,8 +16,8 @@
 
       - role: gantsign.maven
 
-      - role: install_docker
+ #     - role: install_docker
 
-      - role: install_minikube
+ #     - role: install_minikube
 
-      
+

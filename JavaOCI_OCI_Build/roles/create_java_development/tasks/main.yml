@@ -3,6 +3,7 @@
 #   yum:
 #     name: java-1*
 #     state: absent
+# Add unarchive intellij and create intelli j launcher
 
 - name: Copy Jdk, intellij, set up files.
   copy:

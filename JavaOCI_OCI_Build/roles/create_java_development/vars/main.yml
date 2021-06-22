@@ -1,6 +1,6 @@
 ---
     working_dir: "/home/{{ user }}"
-    src_file_dir: "/home/{{ user }}/Downloads"
+    src_file_dir: "~/Downloads"
 
     dest_dir: "/home/{{ create_user }}/Downloads/"
 
