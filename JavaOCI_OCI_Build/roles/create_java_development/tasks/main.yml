@@ -18,6 +18,13 @@
     - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
   become: true
 
+- name: unarchive intellij.
+  unarchive:
+    src: "{{ dest_dir }}/{{ intellij_src_file }}"
+    dest: "{{ working_dir }}"
+    remote_src: true
+    owner: "{{ create_user }}"
+
 - name: Install Java rpm pkg.
   yum: 
     name: "{{ dest_dir }}/{{ java_src_file }}"

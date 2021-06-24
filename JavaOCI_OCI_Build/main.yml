@@ -18,10 +18,12 @@
       - role: gantsign.maven
 
       - role: install_docker
-        tags: do
 
- #     - role: install_minikube
 
+      - role: install_minikube
+
+#      - role: install_course_files
+#        tags: do
  #    - role: install_course_files (indludes clone repo, set hostname to include dukelabs.org)
 
 

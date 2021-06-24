@@ -1,2 +1,12 @@
 ---
 # tasks file for install_minikube
+- name: download minikube.
+  get_url:  
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+    dest: "{{ working_dir }}"
+    mode: 0440
+
+- name: install minikube
+  command: install minikube-darwin-amd64 /usr/local/bin/minikube
+  register: m_var
+  changed_when: m_var.rc !=0
