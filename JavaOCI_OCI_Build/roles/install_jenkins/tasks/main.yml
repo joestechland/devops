@@ -1,3 +1,30 @@
 ---
+- name: download jenkins.
+  get_url:  
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    mode: 0440
 
-#https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos
+- name: import jenkins key.
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+- import_role: 
+    name: update_distro
+
+    
+- name: install jenkins.
+  yum:
+    name: 
+      - jenkins 
+      - java-11-openjdk-devel
+    state: present
+
+- name: reload daemon.
+  systemd:
+    daemon_reload: true
+    name: jenkins
+    state: started
+
+    #https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos

@@ -19,11 +19,12 @@
 
       - role: install_docker
 
-
       - role: install_minikube
 
-#      - role: install_course_files
-#        tags: do
+      - role: install_jenkins
+
+      - role: install_course_files
+        tags: do
  #    - role: install_course_files (indludes clone repo, set hostname to include dukelabs.org)
 
 
