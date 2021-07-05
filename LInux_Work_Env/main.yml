@@ -8,4 +8,4 @@
   become: true
 
   roles:
-    ubuntu_create_linux_env.yml
+    -role: ubuntu_create_linux_env.yml
