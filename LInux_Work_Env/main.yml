@@ -1,0 +1,11 @@
+---
+#install needed file to create a working linux env for use on windows or mac envs
+# not intended for full development -but to be a good starting linux env - could be extended to other purposes, but 
+# basic services and utilities:
+# Assuming Ubuntu base: remove unwanted sw
+# install git, curl, VSC, python3 & pip, gkrellm, ansible* linters
+- hosts: mylocalhost
+  become: true
+
+  roles:
+    ubuntu_create_linux_env.yml
