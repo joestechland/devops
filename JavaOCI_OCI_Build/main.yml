@@ -5,24 +5,26 @@
 #      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
     roles:
       - role: update_distro
-        tags: do
-
+  
  #     - role: install_gnome
 
-      - role: create_admin_user
+      # - role: create_admin_user
 
       - role: add_linux_support
 
+
       - role: create_java_development
 
+
       - role: gantsign.maven
+
 
       - role: install_docker
 
       - role: install_minikube
 
       - role: install_jenkins
-
+        tags: do
       - role: install_course_files
  
  #    - role: install_course_files (indludes clone repo, set hostname to include dukelabs.org)

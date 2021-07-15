@@ -5,42 +5,50 @@
 #     state: absent
 # Add unarchive intellij and create intelli j launcher
 
-- name: Copy Jdk, intellij, set up files.
-  copy:
-    src: '{{ item }}'
-    dest: "{{ dest_dir }}"
-    owner: "{{ create_user }}"
-    group: "{{ create_user }}"
-    mode: 0644
-    force: false
-  loop:
-    - "{{ java_src_dir }}/{{ java_src_file }}"
-    - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
-  become: true
+# - name: Copy Jdk, intellij, set up files.
+#   copy:
+#     src: '{{ item }}'
+#     dest: "{{ dest_dir }}"
+#     owner: "{{ create_user }}"
+#     group: "{{ create_user }}"
+#     mode: 0644
+#     force: false
+#   loop:
+#     - "{{ java_src_dir }}/{{ java_src_file }}"
+#     - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
+#   become: true
 
-- name: unarchive intellij.
+- name: download intellij
   unarchive:
-    src: "{{ dest_dir }}/{{ intellij_src_file }}"
-    dest: "{{ working_dir }}"
+    src: https://download.jetbrains.com/idea/ideaIU-2021.1.3.tar.gz
+    dest:  "{{ working_dir }}"
     remote_src: true
     owner: "{{ create_user }}"
+  become: false
 
-- name: Install Java rpm pkg.
-  yum: 
-    name: "{{ dest_dir }}/{{ java_src_file }}"
-    state: present
-    disable_gpg_check: true
-  become: true
+# - name: unarchive intellij.
+#   unarchive:
+#     src: "{{ src_file_dir }}/{{ intellij_src_file }}"
+#     dest: "{{ working_dir }}"
+#     remote_src: true
+#     owner: "{{ create_user }}"
+
+# - name: Install Java rpm pkg.
+#   yum: 
+#     name: "{{ dest_dir }}/{{ java_src_file }}"
+#     state: present
+#     disable_gpg_check: true
+#   become: true
 
 # set path for Java and java home
-- name: Create java.sh and add path and java home.
-  lineinfile:
-    path: /etc/profile.d/jdk11.sh
-    line: "{{ item }}"
-    create: true
-  loop:
-    - export JAVA_HOME=/usr/lib/jvm/jdk-11.0.11
-    - export PATH=$PATH:${JAVA_HOME}/bin
+# - name: Create java.sh and add path and java home.
+#   lineinfile:
+#     path: /etc/profile.d/jdk11.sh
+#     line: "{{ item }}"
+#     create: true
+#   loop:
+#     - export JAVA_HOME=/usr/lib/jvm/jdk-11.0.11
+#     - export PATH=$PATH:${JAVA_HOME}/bin
 
 - name: download derby db and unzip
   unarchive:
