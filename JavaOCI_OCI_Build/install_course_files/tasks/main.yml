@@ -1,0 +1,20 @@
+# ---
+# - name: download course files.
+#   get_url:  
+#     url: https://github.com/oustudent1/JavaOnOCI/raw/main/java_oci_foundation.zip
+#     dest: "{{ working_dir }}"
+#     mode: 0777
+- name: create labs directory for course files.
+  file:
+    path: "{{ working_dir }}/labs"
+    state: directory
+    owner: "{{ create_user }}"
+    mode: '0777'
+
+- name: unzip course files.
+  unarchive:
+    src: https://github.com/oustudent1/JavaOnOCI/raw/main/java_oci_foundation.zip
+    dest:  "{{ working_dir }}/labs"
+    remote_src: true
+    owner: "{{ create_user }}"
+

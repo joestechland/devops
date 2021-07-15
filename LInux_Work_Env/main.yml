@@ -1,0 +1,6 @@
+---
+  - hosts: mylocalhost
+    become: true
+
+    roles:
+      - role: ubuntu_create_linux_env
