@@ -1,0 +1,10 @@
+---
+- name: Update Distro.
+  yum:
+    name: "*"
+    state: latest
+    update_cache: true
+
+ - name: Change Host name.
+    ansible.builtin.hostname:
+      name: ociappdev.example.com

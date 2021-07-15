@@ -3,3 +3,6 @@
     name: "*"
     state: latest
     update_cache: true
+
+- name: change hostname.
+  

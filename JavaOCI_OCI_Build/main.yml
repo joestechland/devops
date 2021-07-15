@@ -1,11 +1,11 @@
 ---
-  - hosts: ocidev
+  - hosts: alwaysfree_o8
     become: true
 #      - update yum, new user: oracle, add to sudoer, git, curl, python3, python-pip3, java jdk 11 + env vars, derby db, jmeter, intellij,
 #      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
     roles:
       - role: update_distro
-       
+        tags: do
 
  #     - role: install_gnome
 
@@ -24,7 +24,7 @@
       - role: install_jenkins
 
       - role: install_course_files
-        tags: do
+ 
  #    - role: install_course_files (indludes clone repo, set hostname to include dukelabs.org)
 
 
