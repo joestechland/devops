@@ -5,23 +5,24 @@
 #      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
     roles:
       - role: update_distro
-  
+        tags: do 
  #     - role: install_gnome
 
-      # - role: create_admin_user
+      - role: create_admin_user
+        tags: do
 
       - role: add_linux_support
-
+        tags: do
 
       - role: create_java_development
-
+        tags: do
 
       - role: gantsign.maven
-
+        tags: do
 
       - role: install_docker
-
-      - role: install_minikube
+        tags: do
+      # - role: install_minikube
 
       - role: install_jenkins
         tags: do
