@@ -1,23 +1,25 @@
 ---
-# - name: download jenkins.
-#   get_url:  
-#     url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
-#     dest: /etc/yum.repos.d/jenkins.repo
-#     mode: 0440
 - name: download jenkins.
   get_url:  
-    url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
     dest: /etc/yum.repos.d/jenkins.repo
     mode: 0777
+# - name: download jenkins.
+#   get_url:  
+#     url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+#     dest: /etc/yum.repos.d/jenkins.repo
+#     mode: 0777
 
 - name: import jenkins key.
   rpm_key:
     state: present
-    key: https://jenkins-ci.org/redhat/jenkins-ci.org.key
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
 
-# - import_role: 
-#     name: update_distro
-
+- name: Update Distro.
+  yum:
+    name: "*"
+    state: latest
+    update_cache: true
 
 
 - name: set java 8 as default jdk for jenkins.
@@ -28,7 +30,6 @@
   yum:
     name:
       - jenkins
- #     - java-8-openjdk-devel
     state: present
 
 - name: Set HTTP port in Jenkins config.
@@ -49,7 +50,7 @@
 
 - name: Get Jenkins admin password from file.
   slurp:
-    src: ""
+    src: "/var/lib/jenkins/secrets/initialAdminPassword"
     register: adminpasswordfile
     no_log: true
   when: jenkins_admin_password_file | default(false)
