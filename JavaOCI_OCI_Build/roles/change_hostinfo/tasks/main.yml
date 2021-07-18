@@ -1,0 +1,6 @@
+---
+# tasks file for change_hostinfo
+
+- name: Change Host name.
+  ansible.builtin.hostname:
+    name: ociappdev.example.com

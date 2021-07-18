@@ -5,14 +5,11 @@
      jenkins_http_port: 8090
 #      - update yum, new user: oracle, add to sudoer, git, curl, python3, python-pip3, java jdk 11 + env vars, derby db, jmeter, intellij,
 #      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
-    pre_tasks:
-      - name: set java 8 as default jdk for jenkins.
-        command: alternatives --config java <<<'3' 
-        tags: do
 
     roles:
       - role: update_distro
  #       tags: do 
+      - role: change_hostinfo
 
       - role: create_admin_user
  #       tags: do
@@ -35,10 +32,11 @@
         
       - role: githubixx.kubectl
 
-     #  - role: geerlingguy.java
-     #    tags: do
+      # - role: change_java_version
+      #   tags: do 
 
-      - role: geerlingguy.jenkins
+      # - role: geerlingguy.jenkins
+      - role: install_jenkins
         tags: do
 
       - role: update_distro
