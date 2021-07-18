@@ -57,10 +57,11 @@
     remote_src: true
     owner: "{{ create_user }}"
 
-- name: download and unzip jmeter.
-  unarchive:
-    src: https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
-    dest: "{{ dest_dir }}"
-    remote_src: true
-    creates: "{{ dest_dir }}/apache-jmeter-5.4.1"
-  become: true
+
+# - name: download and unzip jmeter.
+#   unarchive:
+#     src: https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+#     dest: "{{ dest_dir }}"
+#     remote_src: true
+#     creates: "{{ dest_dir }}/apache-jmeter-5.4.1"
+#   become: true

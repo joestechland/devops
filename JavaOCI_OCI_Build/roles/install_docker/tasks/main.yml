@@ -2,32 +2,32 @@
 # - include_role:
 #     name: update_distro
 
-- name: install yum utils.
-  yum:
-    name:
-      - yum-utils
-      - zip
-      - unzip
-    state: present
+# - name: install yum utils.
+#   yum:
+#     name:
+#       - yum-utils
+#       - zip
+#       - unzip
+#     state: present
 
-- name: install yum-config-mgr add repo docker.
-  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-  become: true
-  register: yum_var
-  changed_when: yum_var.rc != 0
+# - name: install yum-config-mgr add repo docker.
+#   command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+#   become: true
+#   register: yum_var
+#   changed_when: yum_var.rc != 0
 
-- name: remove runc
-  yum:
-    name: runc
-    state: absent
+# - name: remove runc
+#   yum:
+#     name: runc
+#     state: absent
 
-- name:  install docker engine.
-  yum:
-    name:
-      - docker-engine
-#      - docker-ce-cli
- #     - containerd.io
-#    nobest: false
+# - name:  install docker engine.
+#   yum:
+#     name:
+#       - docker-engine
+# #      - docker-ce-cli
+#  #     - containerd.io
+# #    nobest: false
 
 - name: start docker service.
   systemd:
@@ -39,6 +39,7 @@
   command: usermod -a -G docker $USER
   register: user_var
   changed_when: user_var.rc !=0
+  become: true
 
 
 # if needed to logout/log back in as user, run:
