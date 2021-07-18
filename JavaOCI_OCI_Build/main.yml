@@ -8,7 +8,6 @@
     roles:
       - role: update_distro
  #       tags: do 
- #     - role: install_gnome
 
       - role: create_admin_user
  #       tags: do
@@ -22,11 +21,12 @@
       - role: gantsign.maven
  #       tags: do
 
-      - role: install_docker
+ #     - role: install_docker
  #       tags: do
 
-      - role: vrischmann.minikube
-        tags: do
+     #  - role: vrischmann.minikube
+      - role: install_minikube
+
 
      #  - role: geerlingguy.java
      #    tags: do
@@ -34,12 +34,16 @@
    
         
       - role: githubixx.kubectl
- 
-      # - role: install_jenkins
-      #   tags: do
+
       # - role: install_course_files
 
+      - role: update_distro
+
       # reboot at end
+
+    tasks: 
+      - name: reboot system.
+        command: reboot
  
  #    - role: install_course_files (indludes clone repo, set hostname to include dukelabs.org)
 
