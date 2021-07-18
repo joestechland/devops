@@ -1,8 +1,0 @@
-- name: Update Distro.
-  yum:
-    name: "*"
-    state: latest
-    update_cache: true
-
-- name: change hostname.
-  
