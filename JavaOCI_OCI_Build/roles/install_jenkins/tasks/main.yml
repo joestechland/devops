@@ -16,9 +16,9 @@
     
 - name: install jenkins.
   yum:
-    name: 
-      - jenkins 
-      - java-11-openjdk-devel
+    name:
+      - jenkins
+      - java-8-openjdk-devel
     state: present
 
 - name: reload daemon.
@@ -26,5 +26,6 @@
     daemon_reload: true
     name: jenkins
     state: started
+    enabled: true
 
     #https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos

@@ -1,0 +1,13 @@
+---
+
+- name: get xhyve driver
+  get_url:
+    url: "https://github.com/zchee/docker-machine-driver-xhyve/releases/download/{{ docker_machine_xhyve_driver_version }}/docker-machine-driver-xhyve"
+    dest: "{{ minikube_install_dir }}/docker-machine-driver-xhyve"
+
+- name: chmod xhyve driver
+  file:
+    dest: "{{ minikube_install_dir }}/docker-machine-driver-xhyve"
+    owner: root
+    group: wheel
+    mode: "4755"

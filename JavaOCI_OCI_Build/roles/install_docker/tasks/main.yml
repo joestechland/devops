@@ -2,33 +2,36 @@
 # - include_role:
 #     name: update_distro
 
-- name: install dnf utils.
-  dnf:
-    name: 
-      - dnf-utils
+- name: install yum utils.
+  yum:
+    name:
+      - yum-utils
       - zip
       - unzip
     state: present
 
-- name: install yum-config-mgr add repo dockerce.
-  command: dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+- name: install yum-config-mgr add repo docker.
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
   become: true
-  register: dnf_var
-  changed_when: dnf_var.rc != 0
+  register: yum_var
+  changed_when: yum_var.rc != 0
 
 - name: remove runc
-  dnf:
+  yum:
     name: runc
     state: absent
 
-- name:  install docker-ce.
-  dnf:
-    name: docker-ce
-    nobest: false
+- name:  install docker engine.
+  yum:
+    name:
+      - docker-engine
+#      - docker-ce-cli
+ #     - containerd.io
+#    nobest: false
 
 - name: start docker service.
   systemd:
-    name: docker.service 
+    name: docker.service
     enabled: true
     state: started
 
@@ -37,12 +40,16 @@
   register: user_var
   changed_when: user_var.rc !=0
 
+
 # if needed to logout/log back in as user, run:
 # - name: reset ssh connection to allow user changes to affect 'current login user'
 #   meta: reset_connection
 # http://docker-release-blue-prod.s3-website-us-east-1.amazonaws.com/linux/centos/8/x86_64/stable/Packages/containerd.io-1.4.6-3.1.el8.x86_64.rpm
 # http://docker-release-blue-prod.s3-website-us-east-1.amazonaws.com/linux/centos/8/x86_64/stable/Packages/docker-ce-20.10.7-3.el8.x86_64.rpm
 # http://docker-release-blue-prod.s3-website-us-east-1.amazonaws.com/linux/centos/8/x86_64/stable/Packages/docker-ce-cli-20.10.7-3.el8.x86_64.rpm
+#echo "docker_user  ALL=(ALL)  NOPASSWD: /usr/bin/docker" >> /etc/sudoers
+# echo "alias docker=\"sudo /usr/bin/docker\"" >> /home/docker_user/.bash_profile#
+
 
 #dnf install -y dnf-utils zip unzip
 #dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo

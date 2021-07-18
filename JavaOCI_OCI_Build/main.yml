@@ -1,32 +1,45 @@
 ---
-  - hosts: alwaysfree_o8
+  - hosts: practicalcnjavadev
     become: true
+    vars:
+     jenkins_http_port: 8090
 #      - update yum, new user: oracle, add to sudoer, git, curl, python3, python-pip3, java jdk 11 + env vars, derby db, jmeter, intellij,
 #      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
     roles:
       - role: update_distro
-        tags: do 
+ #       tags: do 
  #     - role: install_gnome
 
       - role: create_admin_user
-        tags: do
+ #       tags: do
 
       - role: add_linux_support
-        tags: do
+ #       tags: do
 
       - role: create_java_development
-        tags: do
+ #       tags: do
 
       - role: gantsign.maven
-        tags: do
+ #       tags: do
 
       - role: install_docker
-        tags: do
-      # - role: install_minikube
+ #       tags: do
 
-      - role: install_jenkins
-        tags: do
-      - role: install_course_files
+      - role: vrischmann.minikube
+        tags: do 
+
+     #  - role: geerlingguy.java
+     #    tags: do
+      - role: geerlingguy.jenkins
+   
+        
+      - role: githubixx.kubectl
+ 
+      # - role: install_jenkins
+      #   tags: do
+      # - role: install_course_files
+
+      # reboot at end
  
  #    - role: install_course_files (indludes clone repo, set hostname to include dukelabs.org)
 
