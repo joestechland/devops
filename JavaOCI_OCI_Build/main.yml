@@ -1,5 +1,5 @@
 ---
-  - hosts: practicalcnjavadev
+  - hosts: mylocalhost
     become: true
     vars:
      jenkins_http_port: 8090
@@ -44,7 +44,7 @@
     
     post_tasks:
       - name: reboot system.
-        reboot:
+        command: sudo reboot
         tags: do
       # - role: install_course_files
 

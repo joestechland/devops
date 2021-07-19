@@ -7,7 +7,7 @@
     mode: 0771
 
 - name: install minikube
-  command: mv minikube-linux-amd64 /usr/local/bin/minikube
+  command: mv /home/opc/minikube-linux-amd64 /usr/local/bin/minikube
   register: m_var
   changed_when: m_var.rc !=0
   become: true
