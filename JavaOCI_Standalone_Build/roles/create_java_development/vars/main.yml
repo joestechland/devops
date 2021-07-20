@@ -1,5 +1,5 @@
 ---
-    create_user: opc
+    create_user: vagrant
     working_dir: "/home/{{ create_user }}"
     src_file_dir: "/home/{{ create_user }}/Downloads"
 

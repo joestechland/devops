@@ -22,8 +22,8 @@
     update_cache: true
 
 
-- name: set java 8 as default jdk for jenkins.
-  shell: sudo alternatives --config java <<< '3'
+# - name: set java 8 as default jdk for jenkins.
+#   shell: sudo alternatives --config java <<< '3'
 
     
 - name: install jenkins.

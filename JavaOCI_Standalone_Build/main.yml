@@ -1,51 +1,54 @@
 ---
-  - hosts: mylocalhost
-    become: true
-    vars:
+- hosts: mylocalhost
+  become: true
+  vars:
      jenkins_http_port: 8090
 #      - update yum, new user: oracle, add to sudoer, git, curl, python3, python-pip3, java jdk 11 + env vars, derby db, jmeter, intellij,
 #      - maven, docker, minikube, kubectl, jenkins, clone repo for course, labs files
 
-    roles:
-      - role: update_distro
- #       tags: do 
-      - role: change_hostinfo
+  roles:
+ 
+     - role: update_distro
+#       tags: do 
+     - role: change_hostinfo
 
-      - role: create_admin_user
+     - role: create_admin_user
+#       tags: do
+
+     - role: add_linux_support
+#       tags: do
+
+     - role: create_java_development
  #       tags: do
 
-      - role: add_linux_support
- #       tags: do
+     - role: gantsign.maven
+#       tags: do
 
-      - role: create_java_development
- #       tags: do
+     - role: install_docker
+#       tags: do
 
-      - role: gantsign.maven
- #       tags: do
+#  - role: vrischmann.minikube
+     - role: install_minikube
 
-      - role: install_docker
- #       tags: do
+     
+     - role: githubixx.kubectl
 
-     #  - role: vrischmann.minikube
-      - role: install_minikube
+     # - role: change_java_version
+     #   tags: do 
 
-        
-      - role: githubixx.kubectl
+     # - role: geerlingguy.jenkins
+     - role: install_jenkins
 
-      # - role: change_java_version
-      #   tags: do 
 
-      # - role: geerlingguy.jenkins
-      - role: install_jenkins
-        tags: do
+     - role: configure_oci
 
-      - role: update_distro
-        tags: do
-    
-    post_tasks:
-      - name: reboot system.
-        command: sudo reboot
-        tags: do
+     - role: update_distro
+ 
+
+  post_tasks:
+     - name: reboot system.
+       command: sudo reboot
+     
       # - role: install_course_files
 
 
