@@ -1,0 +1,6 @@
+---
+# tasks file for change_java_version
+- name: set java 8 as default jdk for jenkins.
+  shell: sudo alternatives --config java <<< '3'
+  tags: do
+  

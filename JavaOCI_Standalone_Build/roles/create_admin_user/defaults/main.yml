@@ -1,0 +1,7 @@
+---
+user: oracle
+vaulted_password: "{{ user }}"
+ansible_become_pass: "{{ user }}"
+
+create_user: "{{ user }}"
+create_group: "{{ user }}"

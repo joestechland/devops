@@ -1,0 +1,48 @@
+--- 
+- hosts: myoci7_dev
+  become: true
+  vars: 
+    - user: oracle
+  tasks:
+
+    - name: Download oci install.sh.
+      get_url:
+        url: https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh
+        dest: "/home/{{ user }}/Downloads/install.sh"
+        mode: '0777'
+        owner: "{{ user }}"
+      become: false
+
+    - name: Install oci cli.
+      shell: >
+        /home/{{ user }}/Downloads/install.sh
+        --install-dir "/home/{{ user }}/lib/oracle-cli"
+        --exec-dir "/home/{{ user }}/bin"
+        --script-dir "/home/{{ user }}/bin/oci-cli-scripts"
+        --optional-features db
+        --update-path-and-enable-tab-completion
+        --rc-file-path "/home/{{ user }}/.bashrc"
+      become: false
+
+
+    - name: Recursively change ownership of bin directory.
+      file:
+        path: /home/{{ user }}/bin
+        state: directory
+        recurse: true
+        owner: "{{ user }}"
+
+    - name: Install oci ansible modules.
+      pip:
+        name: oci
+
+    - name: install OCI Ansible galaxy collections.
+      shell: ansible-galaxy collection install  oracle.oci
+      become: false
+
+    - name: Create sample up OCI Config file
+      command: /home/{{ user }}/bin/oci setup oci-cli-rc --file "/home/{{ user }}/.oci/oci_cli_rc"
+    # copy config file
+    # sshfs oracle@ed-devops.us.oracle.com:/home/oracle/ocic_scripts/Ansible_Playbooks/ ~/ed-devops
+    # cd && fusermount -u ~/ed-devops
+    # mkdir ed-devops

@@ -1,0 +1,63 @@
+---
+- name: download jenkins.
+  get_url:  
+    url: https://pkg.jenkins.io/redhat-stable/jenkins.repo
+    dest: /etc/yum.repos.d/jenkins.repo
+    mode: 0777
+# - name: download jenkins.
+#   get_url:  
+#     url: http://pkg.jenkins-ci.org/redhat/jenkins.repo
+#     dest: /etc/yum.repos.d/jenkins.repo
+#     mode: 0777
+
+- name: import jenkins key.
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+- name: Update Distro.
+  yum:
+    name: "*"
+    state: latest
+    update_cache: true
+
+
+- name: set java 8 as default jdk for jenkins.
+  shell: sudo alternatives --config java <<< '3'
+
+    
+- name: install jenkins.
+  yum:
+    name:
+      - jenkins
+    state: present
+
+- name: Set HTTP port in Jenkins config.
+  lineinfile:
+    backrefs: true
+    dest: /etc/sysconfig/jenkins
+    regexp: '^JENKINS_PORT'
+    line: 'JENKINS_PORT=8090'
+    mode: 0644
+  register: jenkins_http_config
+
+- name: reload daemon, start and enable jenkins.
+  systemd:
+    daemon_reload: true
+    name: jenkins
+    state: started
+    enabled: true
+
+- name: Get Jenkins admin password from file.
+  slurp:
+    src: "/var/lib/jenkins/secrets/initialAdminPassword"
+    register: adminpasswordfile
+    no_log: true
+  when: jenkins_admin_password_file | default(false)
+
+- name: Set Jenkins admin password fact.
+  set_fact:
+    jenkins_admin_password: "{{ adminpasswordfile['stdout'] | default('admin') }}"
+    no_log: true
+
+    #https://www.jenkins.io/doc/book/installing/linux/#red-hat-centos

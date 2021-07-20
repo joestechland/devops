@@ -1,0 +1,14 @@
+---
+# tasks file for install_minikube
+- name: download minikube.
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: "{{ working_dir }}"
+    mode: 0771
+
+- name: install minikube
+  command: mv /home/opc/minikube-linux-amd64 /usr/local/bin/minikube
+  register: m_var
+  changed_when: m_var.rc !=0
+  become: true
+

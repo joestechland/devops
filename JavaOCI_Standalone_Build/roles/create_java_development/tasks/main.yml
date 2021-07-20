@@ -1,0 +1,67 @@
+---
+# - name: remove open jdk.
+#   yum:
+#     name: java-1*
+#     state: absent
+# Add unarchive intellij and create intelli j launcher
+
+# - name: Copy Jdk, intellij, set up files.
+#   copy:
+#     src: '{{ item }}'
+#     dest: "{{ dest_dir }}"
+#     owner: "{{ create_user }}"
+#     group: "{{ create_user }}"
+#     mode: 0644
+#     force: false
+#   loop:
+#     - "{{ java_src_dir }}/{{ java_src_file }}"
+#     - "{{ intellij_src_dir }}/{{ intellij_src_file }}"
+#   become: true
+
+- name: download intellij
+  unarchive:
+    src: https://download.jetbrains.com/idea/ideaIU-2021.1.3.tar.gz
+    dest:  "{{ working_dir }}"
+    remote_src: true
+    owner: "{{ create_user }}"
+  become: false
+
+# - name: unarchive intellij.
+#   unarchive:
+#     src: "{{ src_file_dir }}/{{ intellij_src_file }}"
+#     dest: "{{ working_dir }}"
+#     remote_src: true
+#     owner: "{{ create_user }}"
+
+# - name: Install Java rpm pkg.
+#   yum: 
+#     name: "{{ dest_dir }}/{{ java_src_file }}"
+#     state: present
+#     disable_gpg_check: true
+#   become: true
+
+# set path for Java and java home
+# - name: Create java.sh and add path and java home.
+#   lineinfile:
+#     path: /etc/profile.d/jdk11.sh
+#     line: "{{ item }}"
+#     create: true
+#   loop:
+#     - export JAVA_HOME=/usr/lib/jvm/jdk-11.0.11
+#     - export PATH=$PATH:${JAVA_HOME}/bin
+
+- name: download derby db and unzip
+  unarchive:
+    src: https://mirrors.advancedhosters.com/apache//db/derby/db-derby-10.15.2.0/db-derby-10.15.2.0-bin.zip
+    dest:  "{{ working_dir }}"
+    remote_src: true
+    owner: "{{ create_user }}"
+
+
+# - name: download and unzip jmeter.
+#   unarchive:
+#     src: https://apache.claz.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+#     dest: "{{ dest_dir }}"
+#     remote_src: true
+#     creates: "{{ dest_dir }}/apache-jmeter-5.4.1"
+#   become: true

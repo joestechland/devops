@@ -1,0 +1,5 @@
+---
+# vars file for create_admin_user
+create_user: oracle
+create_group: oracle
+vaulted_password: oracle
