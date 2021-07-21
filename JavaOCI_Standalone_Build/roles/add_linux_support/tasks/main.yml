@@ -1,5 +1,5 @@
 ---
-- name: install git, gkrellm, python3 pip
+- name: install git,  python3 pip
   package:
     name:
       - git
