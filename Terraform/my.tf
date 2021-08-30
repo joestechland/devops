@@ -5,3 +5,4 @@ data terraform_remote_state name {
     local = "value"
   }
 }
+
