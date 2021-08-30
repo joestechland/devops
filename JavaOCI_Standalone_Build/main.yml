@@ -21,17 +21,16 @@
      - role: create_java_development
  #       tags: do
 
+
      - role: gantsign.maven
 #       tags: do
 
-     - role: install_docker
+ #    - role: install_docker
 #       tags: do
 
 #  - role: vrischmann.minikube
      - role: install_minikube
 
-     
-     - role: githubixx.kubectl
 
      # - role: change_java_version
      #   tags: do 
@@ -39,8 +38,6 @@
      # - role: geerlingguy.jenkins
      - role: install_jenkins
 
-
-     - role: configure_oci
 
      - role: update_distro
  

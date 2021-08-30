@@ -1,0 +1,4 @@
+soapui_version: 5.3.0
+soapui_install_dir: /opt/soapui
+
+soapui_url: http://cdn01.downloads.smartbear.com/soapui/{{ soapui_version }}/SoapUI-{{ soapui_version }}-linux-bin.tar.gz

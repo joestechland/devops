@@ -1,0 +1,31 @@
+---
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  # Add current user to docker group and build image
+  - 'sudo usermod -aG docker $(whoami)'
+  - 'docker build --rm=true --file=./tests/Dockerfile --tag=ubuntu:ansible tests'
+
+script:
+  # start container
+  - 'container_id=$(mktemp)'
+  - 'docker run --detach --volume="${PWD}":/etc/ansible/roles/test_role:ro ubuntu:ansible /sbin/init > ${container_id}'
+
+  # check syntax and test role
+  - 'docker exec --tty "$(cat ${container_id})" ansible-galaxy install -r /etc/ansible/roles/test_role/requirements.yml'
+  - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/test_role/tests/test.yml --syntax-check'
+  - 'docker exec --tty "$(cat ${container_id})" ansible-playbook /etc/ansible/roles/test_role/tests/test.yml'
+
+  # ensure intellij is installed
+  - 'docker exec --tty "$(cat ${container_id})" which soapui'
+  - 'docker exec --tty "$(cat ${container_id})" cat /usr/share/applications/soapui.desktop'
+
+  # cleanup
+  - 'docker stop "$(cat ${container_id})"'
+
+
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/

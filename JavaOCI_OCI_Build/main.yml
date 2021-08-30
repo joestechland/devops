@@ -1,5 +1,5 @@
 ---
-  - hosts: mylocalhost
+  - hosts: myoci7_dev
     become: true
     vars:
      jenkins_http_port: 8090
@@ -37,15 +37,15 @@
 
       # - role: geerlingguy.jenkins
       - role: install_jenkins
-        tags: do
+#        tags: do
 
       - role: update_distro
-        tags: do
+ #       tags: do
     
     post_tasks:
       - name: reboot system.
         command: sudo reboot
-        tags: do
+ #       tags: do
       # - role: install_course_files
 
 

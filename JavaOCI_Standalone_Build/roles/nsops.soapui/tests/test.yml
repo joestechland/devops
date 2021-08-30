@@ -1,0 +1,6 @@
+---
+- hosts: all
+
+  roles:
+  - ruiznato.java
+  - test_role
